@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -58,6 +60,22 @@ class User implements UserInterface
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $active;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="organizer", orphanRemoval=true)
+     */
+    private $organizedEvents;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, inversedBy="registeredMembers")
+     */
+    private $registeredEvents;
+
+    public function __construct()
+    {
+        $this->registeredEvents = new ArrayCollection();
+        $this->organizedEvents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -192,5 +210,59 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getOrganizedEvents(): Collection
+    {
+        return $this->organizedEvents;
+    }
+
+    public function addOrganizedEvent(Event $organizedEvent): self
+    {
+        if (!$this->organizedEvents->contains($organizedEvent)) {
+            $this->organizedEvents[] = $organizedEvent;
+            $organizedEvent->setOrganizer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganizedEvent(Event $organizedEvent): self
+    {
+        if ($this->organizedEvents->removeElement($organizedEvent)) {
+            // set the owning side to null (unless already changed)
+            if ($organizedEvent->getOrganizer() === $this) {
+                $organizedEvent->setOrganizer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getRegisteredEvents(): Collection
+    {
+        return $this->registeredEvents;
+    }
+
+    public function addRegisteredEvent(Event $registeredEvent): self
+    {
+        if (!$this->registeredEvents->contains($registeredEvent)) {
+            $this->registeredEvents[] = $registeredEvent;
+        }
+
+        return $this;
+    }
+
+    public function removeRegisteredEvent(Event $registeredEvent): self
+    {
+        $this->registeredEvents->removeElement($registeredEvent);
+
+        return $this;
     }
 }
