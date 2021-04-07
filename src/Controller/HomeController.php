@@ -14,7 +14,11 @@ class HomeController extends AbstractController
      * @Route(path="", name="index", methods={"GET"})
      */
     public function index(): Response
+
     {
-        return $this->render('/test.html.twig');
+        if ($this->getUser()) {
+            return $this->render('home/home.html.twig');
+        }
+        return $this->redirectToRoute('app_login');
     }
 }
