@@ -73,6 +73,12 @@ class User implements UserInterface
      */
     private $registeredEvents;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="members")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $campus;
+
     public function __construct()
     {
         $this->registeredEvents = new ArrayCollection();
@@ -260,6 +266,18 @@ class User implements UserInterface
     public function removeRegisteredEvent(Event $registeredEvent): self
     {
         $this->registeredEvents->removeElement($registeredEvent);
+
+        return $this;
+    }
+
+    public function getCampus(): ?Campus
+    {
+        return $this->campus;
+    }
+
+    public function setCampus(?Campus $campus): self
+    {
+        $this->campus = $campus;
 
         return $this;
     }

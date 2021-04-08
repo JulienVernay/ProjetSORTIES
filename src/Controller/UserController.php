@@ -2,49 +2,62 @@
 
 namespace App\Controller;
 
-use App\Form\UserType;
+use App\Entity\Campus;
+use App\Entity\User;
+use App\Form\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\User;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-/**
- * Class UserController
- * @package App\Controller
- */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user", name="user_profile")
+     * @Route("/user/{id}", requirements={"id": "\d+"}, name="user_profile", methods={"GET", "POST"})
      */
-    public function index(): Response
-    {
-        return $this->render('user/modifyUser.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
+    public function profile(Request $request, EntityManagerInterface $entityManager){
+        $id = $request->get('id');
+
+        $user = $entityManager->getRepository('App:User')->find($id);
+
+        if(is_null($user)){
+            throw $this->createNotFoundException();
+        }
+
+        return $this->render('user/userProfile.html.twig', ['user' => $user]);
     }
 
     /**
-     * @Route ("/user/modify", name="user_modify")
      * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManagerInterface $em
+     * @param User $user
      * @return Response
+     * @Route("user/{id}/modify", name="user_modify", methods={"GET", "POST"})
      */
-    public function modifyUser(Request $request, EntityManagerInterface $em): Response
+    public function modify(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em, User $user): Response
     {
         $id = $request->get('id');
         $user = $em->getRepository('App:User')->find($id);
-        $form = $this->createForm(User::class, $user);
+        $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+        $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
 
-            $em->persist($user);
-            $em->flush();
+        if($form->isSubmitted() && $form->isValid()){
+
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+            $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Profil modifié');
-            return $this->redirectToRoute("user_profile");
+            return $this->redirectToRoute('user_profile', ['id'=>$user->getId()]);
         }
-        return $this->render('user/modifyUser.html.twig', ['userForm'=>$form->createView()]);
+        return $this->render('user/userModify.html.twig', ['userForm'=>$form->createView(), 'campus'=>$campusRepo]);
     }
 }

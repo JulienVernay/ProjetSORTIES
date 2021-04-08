@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Profil{% endblock %}
+
+{% block body %}
+    <div
+            class=" pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h3>Modifier profil de {{ app.user.username }}</h3>
+    </div>
+
+    <div class="row mt-5">
+        <div class="form-group col-md-6 text-center">
+            {{ form_start(userForm) }}
+
+            {{ form_widget(userForm) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6 text-center">
+            <button class="btn btn-lg btn-outline-primary btn-block"
+                    type="submit">Enregistrer</button>
+        </div>
+        <div class="form-group col-md-6">
+            <a class="btn btn-lg btn-outline-secondary btn-block"
+               href="{{ url('user_profile', {"id": app.user.id}) }}" role="button">Annuler</a>
+        </div>
+    </div>
+    {{ form_end(userForm) }}
+
+
+{% endblock %}
