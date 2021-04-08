@@ -25,9 +25,19 @@ class AppFixtures extends Fixture
 
         $campus = new Campus();
         $campus->setCampusName("ENI Nantes");
+        $manager->persist($campus);
+        $manager->flush();
+
+        $campus = new Campus();
         $campus->setCampusName("ENI Paris");
         $manager->persist($campus);
         $manager->flush();
+
+        $campus = new Campus();
+        $campus->setCampusName("ENI Rennes");
+        $manager->persist($campus);
+        $manager->flush();
+
         $allCampus = $manager->getRepository(Campus::class)->findAll();
 
         for($i = 0; $i < 10; $i++) {
@@ -70,10 +80,30 @@ class AppFixtures extends Fixture
 
         $state = new State();
         $state->setLabel("Creee");
+        $manager->persist($state);
+        $manager->flush();
+
+        $state = new State();
         $state->setLabel("Ouverte");
+        $manager->persist($state);
+        $manager->flush();
+
+        $state = new State();
         $state->setLabel("Cloturée");
+        $manager->persist($state);
+        $manager->flush();
+
+        $state = new State();
         $state->setLabel("En cours");
+        $manager->persist($state);
+        $manager->flush();
+
+        $state = new State();
         $state->setLabel("Passee");
+        $manager->persist($state);
+        $manager->flush();
+
+        $state = new State();
         $state->setLabel("Annulee");
         $manager->persist($state);
         $manager->flush();
