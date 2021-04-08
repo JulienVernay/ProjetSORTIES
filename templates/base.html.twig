@@ -35,8 +35,7 @@
                         <a class="nav-link" href="#">Campus</a>
                         <a class="nav-link" href="{{ path('app_register') }}">New User</a>
                     {% endif %}
-                    <a class="nav-link" href="#">Mon profil</a>
-
+                    <a class="nav-link" href="{{ url('user_profile', {"id": app.user.id}) }}">Mon profil</a>
                     <a class="nav-link" href="{{ path('app_logout') }}">Se deconnecter</a>
                 {% endif %}
             </div>

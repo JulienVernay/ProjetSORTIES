@@ -29,9 +29,16 @@ class Campus
      */
     private $events;
 
+    /**
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="campus")
+     */
+    private $members;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->members = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,5 +86,39 @@ class Campus
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(User $member): self
+    {
+        if (!$this->members->contains($member)) {
+            $this->members[] = $member;
+            $member->setCampus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMember(User $member): self
+    {
+        if ($this->members->removeElement($member)) {
+            // set the owning side to null (unless already changed)
+            if ($member->getCampus() === $this) {
+                $member->setCampus(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->campusName;
     }
 }

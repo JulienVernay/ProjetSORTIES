@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+    <div class=" pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h3>Profil de {{ app.user.username }}</h3>
+    </div>
+    <div class="row mt-5">
+        <div class="form-group col-md-6 text-center">
+            <label for="prenom">Prénom :</label>
+        </div>
+
+        <p id="prenom">{{ app.user.firstname }}</p>
+
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6 text-center">
+            <label for="nom">Nom :</label>
+        </div>
+        <p id="nom">{{ app.user.lastName }}</p>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6 text-center">
+            <label for="phone">Téléphone :</label>
+        </div>
+        <p id="phone">{{ app.user.phone }}</p>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6 text-center">
+            <label for="mail">Email :</label>
+        </div>
+        <p id="mail">{{ app.user.mail }}</p>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6 text-center">
+            <label for="campus">Campus :</label>
+        </div>
+        <p id="campus">{{ app.user.campus }}</p>
+    </div>
+
+    <div class="text-center">
+        <a class="btn btn-lg btn-outline-primary" href="{{ url('user_modify', {"id": user.id}) }}" role="button">Modifier</a>
+    </div>
+
+{% endblock %}
