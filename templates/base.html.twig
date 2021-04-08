@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
         <!-- CSS -->
-        <link rel="stylesheet" href="../public/CSS/style.css">
+        <link rel="stylesheet" href="{{asset('/CSS/Style.css')}}">
 
     </head>
     <body>
@@ -28,11 +28,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-link" href="#">Home</a>
-                <a class="nav-link" href="#">Menu</a>
-                <a class="nav-link" href="#">Menu</a>
-                <a class="nav-link" href="#">Menu</a>
-                <a class="nav-link" href="#">Menu</a>
+                {% if app.user %}
+                    <a class="nav-link" href="{{ path('index') }}">Home</a>
+                    {% if is_granted ('ROLE_ADMIN') %}
+                        <a class="nav-link" href="#">Ville</a>
+                        <a class="nav-link" href="#">Campus</a>
+                        <a class="nav-link" href="{{ path('app_register') }}">New User</a>
+                    {% endif %}
+                    <a class="nav-link" href="{{ url('user_profile', {"id": app.user.id}) }}">Mon profil</a>
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se deconnecter</a>
+                {% endif %}
             </div>
         </div>
     </nav>
