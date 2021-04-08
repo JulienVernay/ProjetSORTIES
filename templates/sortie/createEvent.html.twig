@@ -1,0 +1,156 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Créer une sortie{% endblock %}
+
+{% block body %}
+
+	<h1 class="display-4 mt-5 mb-5" style="text-align: center">Créer une sortie</h1>
+
+	{{ form_start(form_sortieForm) }}
+
+
+	{{ form_errors(form_sortieForm) }}
+
+
+	<div class="row">
+
+		<div class="col-sm-4 offset-sm-2">
+			{{ form_row(form_sortieForm.name) }}
+			{{ form_row(form_sortieForm.startingDateTime) }}
+			{{ form_row(form_sortieForm.inscriptionDeadLine) }}
+			{{ form_row(form_sortieForm.nbMaxRegistration) }}
+			{{ form_row(form_sortieForm.duration) }}
+			{{ form_row(form_sortieForm.eventDetails) }}
+		</div>
+
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="required">Ville :</label>
+			</div>
+
+			<div class="row">
+				<div class="col-9">
+					{{ form_row(form_sortieForm.city) }}
+				</div>
+
+				<div class="col-3">
+					<div class="form-group">
+						<label class="required">Nouveau</label>
+						<button type="button" class="form-control btn btn-light" data-toggle="modal" data-target="#myModalCity">
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-9">
+
+					<div class="form-group">
+						<label for="exampleFormControlSelect1"> Lieu :</label>
+						<select class="form-control" id="create_event_location" name="location">
+
+						</select>
+					</div>
+				</div>
+
+				<div class="col-3">
+					<div class="form-group">
+						<label class="required">Nouveau</label>
+						<button type="button" class="form-control btn btn-light" data-toggle="modal" data-target="#myModalLieu">
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="required">Rue</label>
+				<label class="form-control" id="rue"></label>
+			</div>
+
+			<div class="form-group">
+				<label class="required">Code postal</label>
+				<label class="form-control" id="codePostal"></label>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="required">Latitude</label>
+						<label class="form-control" id="latitude"></label>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="required">Longitude</label>
+						<label class="form-control" id="longitude"></label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-4">
+		<div class="col-sm-4 offset-sm-2 my-2">
+			{{ form_widget(form_sortieForm.enregistrer) }}
+		</div>
+		<div class="col-sm-4 my-2">
+			{{ form_widget(form_sortieForm.publier) }}
+		</div>
+	</div>
+
+	{{ form_end(form_sortieForm) }}
+
+	<div id="myModalLieu" class="modal hide fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="display-4">Ajout lieu</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					{{ form_start(formNouveauLieu) }}
+					{{ form_row(formNouveauLieu.nom) }}
+					{{ form_row(formNouveauLieu.ville) }}
+					{{ form_row(formNouveauLieu.rue) }}
+					<div class="row">
+						<div class="col-6">
+							{{ form_row(formNouveauLieu.latitude) }}
+						</div>
+						<div class="col-6">
+							{{ form_row(formNouveauLieu.longitude) }}
+						</div>
+					</div>
+					{{ form_end(formNouveauLieu) }}
+					<button id="btnEnregistrerLieu" class="btn btn-success btn-block my-4 " data-dismiss="modal">
+						Enregistrer nouveau lieu
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="myModalCity" class="modal hide fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="display-4">Ajout ville</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+
+				<div class="modal-body">
+					{{ form_start(formNouvelleVille) }}
+
+					{{ form_row(formNouvelleVille.nom) }}
+					{{ form_row(formNouvelleVille.codePostal) }}
+
+					{{ form_end(formNouvelleVille) }}
+					<button id="btnEnregistrerVille" class="btn btn-success btn-block my-4 " data-dismiss="modal">
+						Enregistrer nouvelle ville
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
