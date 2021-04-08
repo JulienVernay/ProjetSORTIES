@@ -22,6 +22,14 @@ class AppFixtures extends Fixture
     }
     public function load(ObjectManager $manager)
     {
+
+        $campus = new Campus();
+        $campus->setCampusName("ENI Nantes");
+        $campus->setCampusName("ENI Paris");
+        $manager->persist($campus);
+        $manager->flush();
+        $allCampus = $manager->getRepository(Campus::class)->findAll();
+
         for($i = 0; $i < 10; $i++) {
             $faker = \Faker\Factory::create("fr_FR");
             $user = new User();
@@ -32,16 +40,12 @@ class AppFixtures extends Fixture
             $user->setUsername($faker->username());
             $user->setPassword($this->encoder->encodePassword($user, $faker->password()));
             $user->setRoles(['ROLE_USER']);
+            $user->setCampus($faker->randomElement($allCampus));
             $manager->persist($user);
         }
         $manager->flush();
 
-            $campus = new Campus();
-            $campus->setCampusName("ENI Nantes");
-            $campus->setCampusName("ENI Paris");
-            $manager->persist($campus);
 
-        $manager->flush();
 
         for($i = 0; $i < 10; $i++) {
             $faker = \Faker\Factory::create("fr_FR");
@@ -58,7 +62,9 @@ class AppFixtures extends Fixture
             $faker = \Faker\Factory::create("fr_FR");
             $location = new Location();
             $location->setName($faker->name());
+            $location->setStreet($faker->name());
             $location->setCity($faker->randomElement($allCities));
+            $manager->persist($location);
         }
         $manager->flush();
 
