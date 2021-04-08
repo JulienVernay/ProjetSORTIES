@@ -40,14 +40,18 @@ class EventController extends AbstractController
         $sortieForm = $this->createForm(CreateEventFormType::class, $event);
         $sortieForm->handleRequest($request);
 
-        $user = $this->getUser();
-        $event->setOrganizer($user);
-        $site = $user->getSite();
-        $event->setSite($site);
+        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
 
-        $entityManager->persist($event);
-        $entityManager->flush();
-        $this->addFlash("messageSuccess", "Votre sortie a bien été enregistrée");
+            $user = $this->getUser();
+            $event->setOrganizer($user);
+            $site = $user->getCampus();
+            $event->setSite($site);
+
+            $entityManager->persist($event);
+            $entityManager->flush();
+            $this->addFlash("messageSuccess", "Votre sortie a bien été enregistrée");
+            return $this->redirectToRoute('index');
+        }
 
         return $this->render('sortie/createEvent.html.twig', ['sortieForm'=>$sortieForm->createView(), 'location'=>$locationRepo]);
     }

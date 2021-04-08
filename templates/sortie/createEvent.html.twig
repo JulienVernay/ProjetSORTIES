@@ -1,4 +1,4 @@
-{% extends 'layout.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Créer une sortie{% endblock %}
 
@@ -6,21 +6,21 @@
 
 	<h1 class="display-4 mt-5 mb-5" style="text-align: center">Créer une sortie</h1>
 
-	{{ form_start(form_sortieForm) }}
+	{{ form_start(sortieForm) }}
 
 
-	{{ form_errors(form_sortieForm) }}
+	{{ form_errors(sortieForm) }}
 
 
 	<div class="row">
 
 		<div class="col-sm-4 offset-sm-2">
-			{{ form_row(form_sortieForm.name) }}
-			{{ form_row(form_sortieForm.startingDateTime) }}
-			{{ form_row(form_sortieForm.inscriptionDeadLine) }}
-			{{ form_row(form_sortieForm.nbMaxRegistration) }}
-			{{ form_row(form_sortieForm.duration) }}
-			{{ form_row(form_sortieForm.eventDetails) }}
+			{{ form_row(sortieForm.name) }}
+			{{ form_row(sortieForm.startingDateTime) }}
+			{{ form_row(sortieForm.inscriptionDeadLine) }}
+			{{ form_row(sortieForm.nbMaxRegistration) }}
+			{{ form_row(sortieForm.duration) }}
+			{{ form_row(sortieForm.eventDetails) }}
 		</div>
 
 		<div class="col-sm-4">
@@ -30,7 +30,7 @@
 
 			<div class="row">
 				<div class="col-9">
-					{{ form_row(form_sortieForm.city) }}
+					{{ form_row(sortieForm.location) }}
 				</div>
 
 				<div class="col-3">
@@ -92,14 +92,14 @@
 
 	<div class="row mt-4">
 		<div class="col-sm-4 offset-sm-2 my-2">
-			{{ form_widget(form_sortieForm.enregistrer) }}
+			{{ form_widget(sortieForm.enregistrer) }}
 		</div>
 		<div class="col-sm-4 my-2">
-			{{ form_widget(form_sortieForm.publier) }}
+			{{ form_widget(sortieForm.publier) }}
 		</div>
 	</div>
 
-	{{ form_end(form_sortieForm) }}
+	{{ form_end(sortieForm) }}
 
 	<div id="myModalLieu" class="modal hide fade">
 		<div class="modal-dialog">
@@ -109,20 +109,6 @@
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 
-				<div class="modal-body">
-					{{ form_start(formNouveauLieu) }}
-					{{ form_row(formNouveauLieu.nom) }}
-					{{ form_row(formNouveauLieu.ville) }}
-					{{ form_row(formNouveauLieu.rue) }}
-					<div class="row">
-						<div class="col-6">
-							{{ form_row(formNouveauLieu.latitude) }}
-						</div>
-						<div class="col-6">
-							{{ form_row(formNouveauLieu.longitude) }}
-						</div>
-					</div>
-					{{ form_end(formNouveauLieu) }}
 					<button id="btnEnregistrerLieu" class="btn btn-success btn-block my-4 " data-dismiss="modal">
 						Enregistrer nouveau lieu
 					</button>
@@ -139,13 +125,6 @@
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				</div>
 
-				<div class="modal-body">
-					{{ form_start(formNouvelleVille) }}
-
-					{{ form_row(formNouvelleVille.nom) }}
-					{{ form_row(formNouvelleVille.codePostal) }}
-
-					{{ form_end(formNouvelleVille) }}
 					<button id="btnEnregistrerVille" class="btn btn-success btn-block my-4 " data-dismiss="modal">
 						Enregistrer nouvelle ville
 					</button>
