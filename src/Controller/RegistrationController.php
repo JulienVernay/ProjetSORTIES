@@ -15,7 +15,7 @@ class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
-     *@IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
