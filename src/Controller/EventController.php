@@ -46,6 +46,7 @@ class EventController extends AbstractController
             $event->setOrganizer($user);
             $site = $user->getCampus();
             $event->setSite($site);
+            $event->setEventDetails($event);
 
             $entityManager->persist($event);
             $entityManager->flush();
