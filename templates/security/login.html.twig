@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('/CSS/styleLogin.css') }}">
 </head>
 <body>
-<h1>Bienvenue sur SORTIR.COM</h1>
+<h1 class="welcome">Bienvenue sur SORTIR.COM</h1>
 <form class="box" method="post">
     {% if error %}
         <div class="">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
