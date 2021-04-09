@@ -17,8 +17,12 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/user/{id}", requirements={"id": "\d+"}, name="user_profile", methods={"GET", "POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
      */
-    public function profile(Request $request, EntityManagerInterface $entityManager){
+    public function profile(Request $request, EntityManagerInterface $entityManager): Response
+    {
         $id = $request->get('id');
 
         $user = $entityManager->getRepository('App:User')->find($id);
@@ -59,5 +63,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_profile', ['id'=>$user->getId()]);
         }
         return $this->render('user/userModify.html.twig', ['userForm'=>$form->createView(), 'campus'=>$campusRepo]);
+
     }
+
 }

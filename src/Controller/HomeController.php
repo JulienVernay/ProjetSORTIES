@@ -4,6 +4,9 @@
 namespace App\Controller;
 
 
+use App\Entity\Event;
+use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,11 +16,15 @@ class HomeController extends AbstractController
     /**
      * @Route(path="", name="index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(EntityManagerInterface $em): Response
     {
         if ($this->getUser())
         {
-            return $this->render('home/home.html.twig');
+            $events = $em->getRepository('App:Event')->findAll();
+
+            return $this->render('home/home.html.twig',[
+                'events' => $events
+            ]);
         }
         return $this->redirectToRoute('app_login');
     }
