@@ -18,28 +18,28 @@ class CreateEventFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom de la sortie'
+                'label' => 'Nom de la sortie :'
             ])
             ->add('startingDateTime', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => 'Date'
+                'label' => 'Date et heure de la sortie :'
             ])
             ->add('duration', TextType::class, [
-                'label' => 'Durée'
+                'label' => 'Durée :'
             ])
             ->add('inscriptionDeadLine', DateTimeType::class, [
                 'widget' => 'single_text',
-                'label' => "Date limite d'inscription"
+                'label' => "Date limite d'inscription :"
             ])
             ->add('nbMaxRegistration', TextType::class, [
-                'label' => 'Nombre maximum de participants'
+                'label' => 'Nombre maximum de place :'
             ])
             ->add('eventDetails', TextareaType::class, [
-                'label' => 'Informations et description'
+                'label' => 'Informations et description :'
             ])
             ->add('location')
             ->add('enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'btn-block btn-primary btn'],
+                'attr' => ['class' => 'btn-block btn-info btn'],
             ])
             ->add('publier', SubmitType::class, [
                 'attr' => ['class' => 'btn-block btn-success btn'],

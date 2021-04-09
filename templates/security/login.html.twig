@@ -1,15 +1,19 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Connexion{% endblock %}
-
-{% block body %}
-    <div class="container">
-        <div class="row mt-xl-5 ">
-            <div class="col-md-6 offset-md-3 mt-xl-5">
-                <form method="post">
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sortie.com</title>
+    <link rel="stylesheet" href="{{ asset('/CSS/styleLogin.css') }}">
+</head>
+<body>
+<h1>Bienvenue sur SORTIR.COM</h1>
+<form class="box" method="post">
+    {% if error %}
+        <div class="">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
                     {% if app.user %}
                         <div class="mb-3">
