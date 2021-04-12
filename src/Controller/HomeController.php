@@ -18,14 +18,15 @@ class HomeController extends AbstractController
      */
     public function index(EntityManagerInterface $em): Response
     {
-        if ($this->getUser())
+        if (is_null($this->getUser()))
         {
-            $events = $em->getRepository('App:Event')->findAll();
-
-            return $this->render('home/home.html.twig',[
-                'events' => $events
-            ]);
+            return $this->redirectToRoute('app_login');
         }
-        return $this->redirectToRoute('app_login');
+        $events = $em->getRepository('App:Event')->findAll();
+
+        return $this->render('home/home.html.twig',[
+            'events' => $events
+        ]);
+
     }
 }

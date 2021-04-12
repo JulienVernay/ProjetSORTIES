@@ -30,7 +30,7 @@ class Event
     private $startingDateTime;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="integer")
      */
     private $duration;
 
@@ -112,12 +112,12 @@ class Event
         return $this;
     }
 
-    public function getDuration(): ?\DateTimeInterface
+    public function getDuration()
     {
         return $this->duration;
     }
 
-    public function setDuration(\DateTimeInterface $duration): self
+    public function setDuration($duration): self
     {
         $this->duration = $duration;
 

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "Sélectionner un lieu"}}{% endblock %}
+
+{% block body %}
+	<select id="location" name="location" class="form-control">
+		{% for location in Location %}
+			<option value={{ location.id }}>{{ location.name }}</option>
+		{% else %}
+			<option>Aucun lieu trouvé</option>
+		{% endfor %}
+	</select>
+
+{% endblock %}

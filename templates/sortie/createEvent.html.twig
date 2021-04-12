@@ -23,11 +23,10 @@
 			</div>
 
 		<div class="input-group col-md-2">
-			<label for="campus">Campus :</label>
+			{{ form_label(sortieForm.site) }}
 		</div>
 			<div class="input-group col-md-4">
-				<select class="form-control" maxlength="30" id="ville" name="ville">
-				</select>
+				{{ form_widget(sortieForm.site) }}
 			</div>
 		</div> <br>
 
@@ -40,11 +39,10 @@
 		</div>
 
 			<div class="input-group col-md-2">
-				<label for="ville">Ville :</label>
+				{{ form_label(sortieForm.city) }}
 			</div>
 			<div class="input-group col-md-4">
-				<select class="form-control" maxlength="30" id="ville" name="ville">
-				</select>
+				{{ form_widget(sortieForm.city) }}
 			</div>
 		</div> <br>
 
@@ -73,9 +71,12 @@
 			</div>
 
 		<div class="col">
-			<label for="rue">Rue :</label>
+			{{ form_label(sortieForm.street) }}
 		</div>
-			</div> <br>
+			<div class="input-group col-md-4">
+				{{ form_widget(sortieForm.street) }}
+			</div>
+		</div> <br>
 
 		<div class="row">
 			<div class="input-group col-md-2">
@@ -83,12 +84,24 @@
 			</div>
 			<div class="input-group col-md-4">
 				{{ form_widget(sortieForm.duration) }}
+				<select name="duration" id="duration">
+					<option value="">Choisir durée</option>
+					<option value="minute">Minutes</option>
+					<option value="heure">Heures</option>
+					<option value="journée">Journées</option>
+					<option value="week-end">Week-end</option>
+					<option value="semaine">Semaine</option>
+				</select>
+
 			</div>
 
 		<div class="col">
-			<label for="city">Ville :</label>
-				</div>
-		</div> <br>
+			{{ form_label(sortieForm.zipCode) }}
+		</div>
+		<div class="input-group col-md-4">
+			{{ form_widget(sortieForm.zipCode) }}
+		</div>
+	</div> <br>
 
 		<div class="row">
 			<div class="input-group col-md-2">
@@ -98,27 +111,17 @@
 			{{ form_widget(sortieForm.eventDetails) }}
 		</div>
 
-			<div class="col">
-				<label for="cp">Code postal :</label>
-			</div>
-		</div> <br>
-
 		</div>
 			</div>
-				</div>
 	<div class="row justify-content-md-center mt-3">
-		<div class="input-group col-md-3">
+		<div class="input-group col-md-4">
+			<div>
+				<button class="btn btn-outline-info" type="submit" name="envoyer" value="enregistrer">Enregistrer</button>
+				<button class="btn btn-info" type="submit" name="envoyer" value="publier">Publier</button>
+				<a class="btn btn-outline-danger" href="#">Annuler</a>
+			</div>
 					{{  form_end(sortieForm) }}
 		</div>
 	</div>
-			</div>
-		</div>
-	</div>
-{% endblock %}
-{#
-{% block javascripts %}
-	<script src="{{ url('https://code.jquery.com/jquery-3.5.1.slim.min.js') }}"></script>
-	<script src="{{ url('https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js') }}"></script>
-{% endblock %}
 
-#}
+{% endblock %}

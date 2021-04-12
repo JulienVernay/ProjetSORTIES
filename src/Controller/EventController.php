@@ -3,8 +3,14 @@
 namespace App\Controller;
 
 use App\Form\CreateEventFormType;
+use App\Form\LocationFormType;
+use App\Repository\CityRepository;
+use App\Repository\EventRepository;
+use App\Repository\StateRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,11 +28,15 @@ class EventController extends AbstractController
 {
     /**
      * @Route("/createEvent", name="event", methods={"GET","POST"})
-     * @param EntityManagerInterface $entityManager
      * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
+     * @param StateRepository $stateRepository
+     * @param CityRepository $cityRepository
      * @return Response
      */
-    public function createEvent(EntityManagerInterface $entityManager, Request $request): Response
+    public function createEvent(Request $request,EntityManagerInterface $entityManager, UserRepository $userRepository,
+                             StateRepository $stateRepository, CityRepository $cityRepository): Response
     {
         $event = new Event();
 
@@ -40,20 +50,115 @@ class EventController extends AbstractController
         $sortieForm = $this->createForm(CreateEventFormType::class, $event);
         $sortieForm->handleRequest($request);
 
-        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             $user = $this->getUser();
             $event->setOrganizer($user);
-            $site = $user->getCampus();
-            $event->setSite($site);
-            $event->setEventDetails($event);
+
+            $env = $request->request->get('envoyer');
+            $enregister = 'enregistrer';
+            $publier = 'publier';
+
+            if ($env === $publier) {
+                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>1]);
+                $event->setStatus($etat);
+                $this->addFlash('success', 'Votre sortie a été publiée avec succès !');
+
+
+            } elseif ($env === $enregister) {
+                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>2]);
+                $event->setStatus($etat);
+                $this->addFlash('success', 'Votre sortie a été enregistrée avec succès !');
+
+            }
 
             $entityManager->persist($event);
             $entityManager->flush();
-            $this->addFlash("messageSuccess", "Votre sortie a bien été enregistrée");
             return $this->redirectToRoute('index');
         }
 
-        return $this->render('sortie/createEvent.html.twig', ['sortieForm'=>$sortieForm->createView(), 'location'=>$locationRepo]);
+        return $this->render('sortie/createEvent.html.twig', ['sortieForm' => $sortieForm->createView(), 'location' => $locationRepo]);
+
+    }
+
+    // Ajouter un lieu
+    public function eventAddLocation(EntityManagerInterface $entityManager, StateRepository $stateRepository,EventRepository $eventRepository, Request $request): Response
+    {
+        $location = new Location();
+
+        $formLocation = $this->createForm(LieuType::class, $location);
+        $formLocation->handleRequest($request);
+
+        if($formLocation->isSubmitted() && $formLocation->isValid()){
+            $location = $formLocation->getData();
+            $entityManager->persist($location);
+            $entityManager->flush();
+        }
+
+        return $this->render('sorties/createEvent.html.twig', [
+            "LocationFormType" => $formLocation->createView(),
+        ]);
+    }
+
+    /**
+     * @Route(name="event-details", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
+     *
+     */
+    public function eventDetails($id, EventRepository $eventRepo)
+    {
+        $event =$eventRepo->find($id);
+
+        return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
+    }
+
+    /**
+     * @Route(name="inscriptionEvent",path="inscriptionEvent/{id}", requirements={"id": "\d+"} ,methods={"POST","GET"})
+     *
+     */
+    public function inscriptionEvent($id, EventRepository $eventRepo, EntityManagerInterface $entityManager)
+    {
+        $event = $eventRepo->find($id);
+        $participant = $this->getUser();
+
+        if ($event ->getInscriptionDeadLine() > new \DateTime('now') &&
+        $event->getNbMaxRegistration() > $event->getRegisteredMembers()->count()) {
+
+            $event -> addRegisteredMember($participant);
+            $entityManager -> persist($event);
+            $entityManager ->flush();
+
+            $this->addFlash('success', 'Vous êtes inscrit à la sortie !');
+        }
+        else {
+
+            $this->addFlash('warning', 'Vous ne pouvez pas vous inscrire à la sortie !');
+        }
+
+        return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
+    }
+
+    /**
+     * @Route(name="deinscriptionEvent",path="deinscriptionEvent/{id}", requirements={"id": "\d+"} ,methods={"POST","GET"})
+     *
+     */
+    public function deinscriptionEvent($id, EventRepository $eventRepo, EntityManagerInterface $entityManager)
+    {
+        $event = $eventRepo->find($id);
+        $participant = $this->getUser();
+
+        if (!is_null($event) ) {
+
+            $event -> removeRegisteredMember($participant);
+            $entityManager -> persist($event);
+            $entityManager ->flush();
+
+            $this->addFlash('success', 'Vous vous êtes désinscrit avec succès !');
+        }
+        else {
+
+            $this->addFlash('warning', 'Une erreur s'.'est produite');
+        }
+
+        return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
     }
 }
