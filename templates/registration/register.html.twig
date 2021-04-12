@@ -9,17 +9,60 @@
 
     <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.firstName) }}
-        {{ form_row(registrationForm.lastName) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.phone) }}
-        {{ form_row(registrationForm.mail) }}
-        {{ form_row(registrationForm.campus) }}
+    <div class=" d-flex justify-content-center">
+        {{ form_start(registrationForm)}}
+        <div class="form-group row">
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div class="col-8">
+                {{ form_row(registrationForm.firstName) }}
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <div class="col-8">
+                {{ form_row(registrationForm.lastName) }}
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <div class="col-8">
+                {{ form_row(registrationForm.username) }}
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <div class="col-8">
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                }) }}
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <div class="col-8">
+                {{ form_row(registrationForm.phone) }}
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <div class="col-8">
+                {{ form_row(registrationForm.mail) }}
+            </div>
+        </div>
+        <div class="form-group row">
+
+            <div class="col-8">
+                {{ form_row(registrationForm.campus) }}
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-8">
+                <input type="submit" name="submit" id="" class="btn btn-primary p-r-4 p-l-4 ">
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+
+
+
 {% endblock %}

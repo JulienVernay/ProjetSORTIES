@@ -29,5 +29,41 @@
             </div>
         </div>
     </div>
+
+    <h1>Sortie</h1>
+    <div class="row m-5">
+
+    {% for event in events %}
+        <div class="col-3 p-5">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="https://loremflickr.com/320/240" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.name }}</h5>
+                    <p class="card-text text-truncate">{{ event.eventDetails }} </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Date de début : {{ event.startingDateTime|date('d-m-Y')}}</li>
+                    <li class="list-group-item">Durée : {{ event.duration|date('d-m-Y') }}</li>
+                    <li class="list-group-item">Date de fin des inscriptions : {{ event.inscriptionDeadLine|date('d-m-Y')}}</li>
+                    <li class="list-group-item">Nombre de participant max : {{ event.nbMaxRegistration }}</li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="card-link">Details de l'evenement</a>
+                    {% if event.organizer == app.user %}
+                    <a href="#" class="card-link">Modifier l'evenement</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+
+            <p>Aucune sortie n'a été trouvé</p>
+
+        {% endfor %}
+    </div>
+
+
+    <a href="{{ path('event') }}">Créer une nouvelle sortie</a>
 {% endif %}
 {% endblock %}
