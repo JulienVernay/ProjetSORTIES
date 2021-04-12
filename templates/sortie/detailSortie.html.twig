@@ -10,83 +10,101 @@
             </div>
         {% endfor %}
     {% endfor %}
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        {% if (event.status.id == 6) %}
-            <h1>LA SORTIE {{ event.name }} EST ANNULEE</h1>
-        {% endif %}
-        {% if (event.status.id < 6) %}
-            <h1 class="display-4">Sortie {{ event.name }} </h1>
-        {% endif %}
+    {% if (event.status.id == 6) %}
+        <h1>LA SORTIE {{ event.name }} EST ANNULEE</h1>
+    {% endif %}
+    {% if (event.status.id < 6) %}
 
-        <div class="row">
-            <div class="col-4 p-3">
-
-                <p class="lead text-left"><b>Durée de l'évènement:</b> {{ event.duration }}</p>
-                <p class="lead text-left"><b>Date de début: </b>{{ event.startingDateTime |date("m/d/Y") }}</p>
-                <p class="lead text-left"><b>Date Limite
-                        d'inscription:</b> {{ event.inscriptionDeadLine |date("m/d/Y") }}</p>
-                <p class="lead text-left"><b>Nombre maximum d'inscrit:</b> {{ event.nbMaxRegistration }}</p>
-
-                <p class="lead text-left"><b>Description de la sortie: </b>{{ event.eventDetails }}</p>
-                <p class="lead text-left"><b>Nombre de participant: </b>{{ event.registeredMembers|length }}</p>
+        <div class="container">
 
 
-            </div>
-            <div class="col-4">
-                <p class="lead text-left"><b>Lieu : </b>{{ event.location.name }}</p>
-                <p class="lead text-left"><b>Ville : </b> {{ event.location.city.name  }}</p>
-                <p class="lead text-left"><b>Rue : </b> {{ event.location.street  }}</p>
-                <p class="lead text-left"><b>Code Postal : </b> {{ event.location.city.zipCode  }}</p>
-            </div>
-
-        <div class="col-4">
-            <h3>Liste des participants</h3>
-        <table id="tableParticipants" class="col-3 table table-striped table-bordered">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Pseudo</th>
-                <th scope="col">Nom</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% if event.registeredMembers is not empty %}
-                {% for p in event.registeredMembers %}
-                    <tr class="">
-                        <td class="row"><a
-                                    href="{{ path('event-details',{'id': p.id}) }}"> {{ p.username }}</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <li><em>no user found</em></li>
-                {% endfor %}
+        <div class="jumbotron">
+        <h1 class="display-3">Sortie {{ event.name }}</h1>
+    {% endif %}
+    <p class="lead">{{ event.eventDetails }}</p>
+    <p>    {% if(event.registeredMembers| length < event.nbMaxRegistration) and app.user not in event.registeredMembers and event.inscriptionDeadLine  > date() %}
+            {% if (event.status.id == 2) %}
+                <a class="btn btn-lg btn-info" href="{{ path('inscriptionEvent', {"id": event.id }) }}">S'inscrire</a>
             {% endif %}
-            </tbody>
-        </table>
-        </div>
+        {% endif %}
+
+        {% if (event.status.id == 2 ) %}
+            {% if(app.user in event.registeredMembers) %}
+                <a class="btn btn-lg btn-info" href="{{ path('deinscriptionEvent', {"id": event.id }) }}">Se
+                    désinscrire</a>
+            {% endif %}
+        {% endif %}
+
+        {% if (event.status.id == 2 ) %}
+            {% if (app.user == event.organizer) %}
+                <a class="btn btn-lg btn-outline-danger" href="{{ path('event-details', {"id": event.id }) }}">Annuler</a>
+                {% if(event.status.id == 1) %}
+                    <a class="btn btn-lg btn-outline-info"
+                       href="{{ path('event-details', {"id": sortie.id }) }}">Modifier</a>
+                {% endif %}
+            {% endif %}
+        {% endif %}</p>
     </div>
-    <div class="relative">
-    {% if(event.registeredMembers| length < event.nbMaxRegistration) and app.user not in event.registeredMembers and event.inscriptionDeadLine  > date() %}
-        {% if (event.status.id == 2) %}
-            <a class="btn btn-lg btn-info" href="{{ path('inscriptionEvent', {"id": event.id }) }}">S'inscrire</a>
+    {% if event.registeredMembers is not empty %}
+    {% for p in event.registeredMembers %}
+    <h3 style="">Liste des participants</h3>
+    <table class="table" style="">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Peudo</th>
+            <th>Nom</th>
+            <th>Prenom</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td> <a href="{{ path('user_profile',{'id': p.id}) }}"> {{ p.username }}</a></td>
+            <td>{{ p.firstName }}</td>
+            <td>{{ p.lastName }}</td>
+        </tr>
+        {% else %}
+            <li><em>no user found</em></li>
+        {% endfor %}
         {% endif %}
-    {% endif %}
+        </tbody>
+    </table>
+    </div>
 
-    {% if (event.status.id == 2 ) %}
-        {% if(app.user in event.registeredMembers) %}
-            <a class="btn btn-lg btn-info" href="{{ path('deinscriptionEvent', {"id": event.id }) }}">Se
-                désinscrire</a>
-        {% endif %}
-    {% endif %}
+    <div class="container">
+    <div class="row marketing m-6">
+        <div class="col-6">
+            <h4>Durée de l'évènement</h4>
+            <p>{{ event.duration }}</p>
 
-    {% if (event.status.id == 2 ) %}
-        {% if (app.user == event.organizer) %}
-            <a class="btn btn-lg btn-outline-danger" href="{{ path('event-details', {"id": event.id }) }}">Annuler</a>
-            {% if(event.status.id == 1) %}
-                <a class="btn btn-lg btn-outline-info"
-                   href="{{ path('event-details', {"id": sortie.id }) }}">Modifier</a>
-            {% endif %}
-        {% endif %}
-    {% endif %}
+            <h4>Date de début</h4>
+            <p>{{ event.startingDateTime |date("m/d/Y") }}</p>
+
+            <h4>Date Limite d'inscription</h4>
+            <p>{{ event.inscriptionDeadLine |date("m/d/Y") }}</p>
+
+            <h4>Nombre maximum d'inscrit</h4>
+            <p>{{ event.nbMaxRegistration }}</p>
+
+            <h4>Nombre de participant</h4>
+            <p>{{ event.registeredMembers|length }}</p>
+        </div>
+
+    <div class="col-6">
+        <h4>Lieu </h4>
+        <p>{{ event.location.name }}</p>
+
+        <h4>Lieu </h4>
+        <p>{{ event.location.city.name  }}</p>
+
+        <h4>Rue</h4>
+        <p>{{ event.location.street  }}</p>
+
+        <h4>Code Postal</h4>
+        <p>{{ event.location.city.zipCode  }}</p>
+    </div>
+    </div>
     </div>
 
 {% endblock %}
