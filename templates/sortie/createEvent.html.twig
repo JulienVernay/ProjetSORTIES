@@ -84,6 +84,15 @@
 			</div>
 			<div class="input-group col-md-4">
 				{{ form_widget(sortieForm.duration) }}
+				<select name="duration" id="duration">
+					<option value="">Choisir durée</option>
+					<option value="minute">Minutes</option>
+					<option value="heure">Heures</option>
+					<option value="journée">Journées</option>
+					<option value="week-end">Week-end</option>
+					<option value="semaine">Semaine</option>
+				</select>
+
 			</div>
 
 		<div class="col">
@@ -106,7 +115,7 @@
 			</div>
 				</div>
 	<div class="row justify-content-md-center mt-3">
-		<div class="input-group col-md-3">
+		<div class="input-group col-md-4">
 					{{  form_end(sortieForm) }}
 		</div>
 	</div>
@@ -114,10 +123,3 @@
 		</div>
 	</div>
 {% endblock %}
-{#
-{% block javascripts %}
-	<script src="{{ url('https://code.jquery.com/jquery-3.5.1.slim.min.js') }}"></script>
-	<script src="{{ url('https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js') }}"></script>
-{% endblock %}
-
-#}
