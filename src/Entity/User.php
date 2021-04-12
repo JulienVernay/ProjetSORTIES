@@ -75,7 +75,7 @@ class User implements UserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="members")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="campus_id", nullable=true, onDelete="SET NULL")
      */
     private $campus;
 

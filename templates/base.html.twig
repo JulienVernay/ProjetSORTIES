@@ -33,7 +33,7 @@
                     <a class="nav-link" href="{{ path('index') }}">Home</a>
                     {% if is_granted ('ROLE_ADMIN') %}
                         <a class="nav-link" href="#">Ville</a>
-                        <a class="nav-link" href="{{ path('search_campus') }}">Campus</a>
+                        <a class="nav-link" href="{{ path('campus') }}">Campus</a>
                         <a class="nav-link" href="{{ path('app_register') }}">New User</a>
                     {% endif %}
                     <a class="nav-link" href="{{ url('user_profile', {"id": app.user.id}) }}">Mon profil</a>

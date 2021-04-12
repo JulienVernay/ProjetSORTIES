@@ -15,39 +15,21 @@
         <div class="">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-                    {% if app.user %}
-                        <div class="mb-3">
-                            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-                        </div>
-                    {% endif %}
-
-                    <h1 class="h3 mb-3 font-weight-normal text-center">Connecte-toi</h1>
-                    <label for="inputUsername">Username</label>
-                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
-                    <label for="inputPassword">Mot de passe</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" required>
-
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}"
-                    >
-
-
-
-                    {# See https://symfony.com/doc/current/security/remember_me.html #}
-
-                    <div class="checkbox mb-3">
-                        <label>
-                            <input type="checkbox" id="remember_me"  name="_remember_me"> Remember me
-                        </label>
-                    </div>
-
-
-                    <button class="btn btn-primary btn-lg btn-block" type="submit">
-                        Connexion
-                    </button>
-                </form>
-            </div>
+    {% if app.user %}
+        <div class="">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
+    {% endif %}
+    <h2>Connexion</h2>
+    <input type="text" value="{{ last_username }}" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Mot de passe" required>
+    <input type="checkbox" id="remember_me"  name="_remember_me"> Se souvenir de moi
 
-    </div>
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    <input type="submit" name="" value="Login">
+</form>
+
 </body>
+</html>

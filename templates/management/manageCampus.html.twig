@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for status, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash flash-{{ status }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    <h3>Recherche</h3>
+    {{ form_start(search_form) }}
+    {{ form_widget(search_form) }}
+    {{ form_end(search_form) }}
+    <h3>Résultat de la recherche</h3>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th> Campus </th>
+            <th> Actions </th>
+        </tr>
+        {% if campus |length > 0 %}
+            {% for c in campus %}
+                <tr>
+                    <td>{{ c.campusName }}</td>
+                    <td>
+                        <a href="{{ path('modify_campus', {'id': c.id}) }}">Modifier</a> / <a href="{{ path('delete_campus', {'id': c.id}) }}">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td>Aucun résultat pour votre recherche</td>
+            </tr>
+        {% endif %}
+        {{ form_start(add_form) }}
+        <tr>
+            <td>
+                {{ form_row(add_form.campusName) }}
+            </td>
+            <td>
+                {{ form_row(add_form.ajouter) }}
+            </td>
+        </tr>
+        {{ form_end(add_form) }}
+    </table>
+{% endblock %}

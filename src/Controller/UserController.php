@@ -42,7 +42,7 @@ class UserController extends AbstractController
      * @return Response
      * @Route("user/{id}/modify", name="user_modify", methods={"GET", "POST"})
      */
-    public function modify(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em, User $user): Response
+    public function modify(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em): Response
     {
         $id = $request->get('id');
         $user = $em->getRepository('App:User')->find($id);
