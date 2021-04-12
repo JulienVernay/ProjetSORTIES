@@ -54,10 +54,25 @@ class EventController extends AbstractController
             $user = $this->getUser();
             $event->setOrganizer($user);
 
+            $env = $request->request->get('envoyer');
+            $enregister = 'enregistrer';
+            $publier = 'publier';
+
+            if ($env === $publier) {
+                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>1]);
+                $event->setEtat($etat);
+                $this->addFlash('success', 'Votre sortie a été publiée avec succès !');
+
+
+            } elseif ($env === $enregister) {
+                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>2]);
+                $event->setEtat($etat);
+                $this->addFlash('success', 'Votre sortie a été enregistrée avec succès !');
+
+            }
 
             $entityManager->persist($event);
             $entityManager->flush();
-            $this->addFlash("messageSuccess", "Votre sortie a bien été enregistrée");
             return $this->redirectToRoute('index');
         }
 

@@ -253,5 +253,4 @@ class Event
 
         return $this;
     }
-
 }
