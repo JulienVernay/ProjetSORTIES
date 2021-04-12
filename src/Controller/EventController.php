@@ -52,17 +52,7 @@ class EventController extends AbstractController
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             $user = $this->getUser();
-            $event->setDuration($event);
-            $event->setLocation($event);
-            $event->setName($event);
-            $event = $this->getCity()->getName();
-            $event->setStartingDateTime($event);
-            $event->setInscriptionDeadLine($event);
             $event->setOrganizer($user);
-            $event->setCampus($this->getUser()->getCampus());
-            $event->setSite($user);
-            $event->setEventDetails($event);
-            $event->setNbMaxRegistration($event);
 
 
             $entityManager->persist($event);
