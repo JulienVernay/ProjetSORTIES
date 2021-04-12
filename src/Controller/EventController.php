@@ -60,13 +60,13 @@ class EventController extends AbstractController
 
             if ($env === $publier) {
                 $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>1]);
-                $event->setEtat($etat);
+                $event->setStatus($etat);
                 $this->addFlash('success', 'Votre sortie a été publiée avec succès !');
 
 
             } elseif ($env === $enregister) {
                 $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>2]);
-                $event->setEtat($etat);
+                $event->setStatus($etat);
                 $this->addFlash('success', 'Votre sortie a été enregistrée avec succès !');
 
             }
