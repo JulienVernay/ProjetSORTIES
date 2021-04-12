@@ -91,16 +91,6 @@ class CreateEventFormType extends AbstractType
                 'mapped' => false,
                 'label' => "Code Postal :",
                 'disabled' =>true
-            ])
-            ->add('enregistrer', SubmitType::class, [
-                'attr' => ['class' => 'btn-block btn-info btn'],
-            ])
-            ->add('publier', SubmitType::class, [
-                'attr' => ['class' => 'btn-block btn-success btn'],
-            ])
-
-            ->add('annuler', SubmitType::class, [
-             'attr' => ['class' => 'btn-block btn-danger btn'],
             ]);
     }
 }
