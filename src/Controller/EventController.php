@@ -10,6 +10,7 @@ use App\Repository\StateRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,5 +98,67 @@ class EventController extends AbstractController
         return $this->render('sorties/createEvent.html.twig', [
             "LocationFormType" => $formLocation->createView(),
         ]);
+    }
+
+    /**
+     * @Route(name="event-details", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
+     *
+     */
+    public function eventDetails($id, EventRepository $eventRepo)
+    {
+        $event =$eventRepo->find($id);
+
+        return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
+    }
+
+    /**
+     * @Route(name="inscriptionEvent",path="inscriptionEvent/{id}", requirements={"id": "\d+"} ,methods={"POST","GET"})
+     *
+     */
+    public function inscriptionEvent($id, EventRepository $eventRepo, EntityManagerInterface $entityManager)
+    {
+        $event = $eventRepo->find($id);
+        $participant = $this->getUser();
+
+        if ($event ->getInscriptionDeadLine() > new \DateTime('now') &&
+        $event->getNbMaxRegistration() > $event->getRegisteredMembers()->count()) {
+
+            $event -> addRegisteredMember($participant);
+            $entityManager -> persist($event);
+            $entityManager ->flush();
+
+            $this->addFlash('success', 'Vous êtes inscrit à la sortie !');
+        }
+        else {
+
+            $this->addFlash('warning', 'Vous ne pouvez pas vous inscrire à la sortie !');
+        }
+
+        return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
+    }
+
+    /**
+     * @Route(name="deinscriptionEvent",path="deinscriptionEvent/{id}", requirements={"id": "\d+"} ,methods={"POST","GET"})
+     *
+     */
+    public function deinscriptionEvent($id, EventRepository $eventRepo, EntityManagerInterface $entityManager)
+    {
+        $event = $eventRepo->find($id);
+        $participant = $this->getUser();
+
+        if (!is_null($event) ) {
+
+            $event -> removeRegisteredMember($participant);
+            $entityManager -> persist($event);
+            $entityManager ->flush();
+
+            $this->addFlash('success', 'Vous vous êtes désinscrit avec succès !');
+        }
+        else {
+
+            $this->addFlash('warning', 'Une erreur s'.'est produite');
+        }
+
+        return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
     }
 }
