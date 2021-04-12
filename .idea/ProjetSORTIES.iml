@@ -88,5 +88,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="font-awesome" level="application" />
+    <orderEntry type="library" name="OwlCarousel2" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
   </component>
 </module>

@@ -28,8 +28,8 @@ class CampusRepository extends ServiceEntityRepository
     public function searchCampus($name)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.campusName = :campusName')
-            ->setParameter('campusName', $name['campusName'])
+            ->andWhere('c.campusName LIKE :campusName')
+            ->setParameter('campusName', '%'.$name['campusName'].'%')
             ->getQuery()
             ->getResult()
             ;

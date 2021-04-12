@@ -16,7 +16,8 @@ class SearchCampusFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('campusName', TextType::class, ['label' => 'Le nom contient :'])
+            ->add('campusName', TextType::class, ['label' => 'Le nom contient :','required'   => false
+            ])
             ->add('recherche', SubmitType::class)
         ;
     }
