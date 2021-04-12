@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ "Sélectionner un lieu"}}{% endblock %}
+
+{% block body %}
+	<select id="location" name="location" class="form-control">
+		{% for location in Location %}
+			<option value={{ location.id }}>{{ location.name }}</option>
+		{% else %}
+			<option>Aucun lieu trouvé</option>
+		{% endfor %}
+	</select>
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ url('https://code.jquery.com/jquery-3.5.1.slim.min.js') }}"></script>
+	<script src="{{ url('https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js') }}"></script>
+{% endblock %}

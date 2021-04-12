@@ -3,6 +3,11 @@
 namespace App\Controller;
 
 use App\Form\CreateEventFormType;
+use App\Form\LocationFormType;
+use App\Repository\CityRepository;
+use App\Repository\EventRepository;
+use App\Repository\StateRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +27,15 @@ class EventController extends AbstractController
 {
     /**
      * @Route("/createEvent", name="event", methods={"GET","POST"})
-     * @param EntityManagerInterface $entityManager
      * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param UserRepository $userRepository
+     * @param StateRepository $stateRepository
+     * @param CityRepository $cityRepository
      * @return Response
      */
-    public function createEvent(EntityManagerInterface $entityManager, Request $request): Response
+    public function createEvent(Request $request,EntityManagerInterface $entityManager, UserRepository $userRepository,
+                             StateRepository $stateRepository, CityRepository $cityRepository): Response
     {
         $event = new Event();
 
@@ -40,13 +49,21 @@ class EventController extends AbstractController
         $sortieForm = $this->createForm(CreateEventFormType::class, $event);
         $sortieForm->handleRequest($request);
 
-        if($sortieForm->isSubmitted() && $sortieForm->isValid()){
+        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
 
             $user = $this->getUser();
+            $event->setDuration($event);
+            $event->setLocation($event);
+            $event->setName($event);
+            $event = $this->getCity()->getName();
+            $event->setStartingDateTime($event);
+            $event->setInscriptionDeadLine($event);
             $event->setOrganizer($user);
-            $site = $user->getCampus();
-            $event->setSite($site);
+            $event->setCampus($this->getUser()->getCampus());
+            $event->setSite($user);
             $event->setEventDetails($event);
+            $event->setNbMaxRegistration($event);
+
 
             $entityManager->persist($event);
             $entityManager->flush();
@@ -54,6 +71,26 @@ class EventController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
-        return $this->render('sortie/createEvent.html.twig', ['sortieForm'=>$sortieForm->createView(), 'location'=>$locationRepo]);
+        return $this->render('sortie/createEvent.html.twig', ['sortieForm' => $sortieForm->createView(), 'location' => $locationRepo]);
+
+    }
+
+    // Ajouter un lieu
+    public function eventAddLocation(EntityManagerInterface $entityManager, StateRepository $stateRepository,EventRepository $eventRepository, Request $request): Response
+    {
+        $location = new Location();
+
+        $formLocation = $this->createForm(LieuType::class, $location);
+        $formLocation->handleRequest($request);
+
+        if($formLocation->isSubmitted() && $formLocation->isValid()){
+            $location = $formLocation->getData();
+            $entityManager->persist($location);
+            $entityManager->flush();
+        }
+
+        return $this->render('sorties/createEvent.html.twig', [
+            "LocationFormType" => $formLocation->createView(),
+        ]);
     }
 }

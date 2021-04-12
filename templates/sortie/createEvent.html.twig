@@ -23,11 +23,10 @@
 			</div>
 
 		<div class="input-group col-md-2">
-			<label for="campus">Campus :</label>
+			{{ form_label(sortieForm.site) }}
 		</div>
 			<div class="input-group col-md-4">
-				<select class="form-control" maxlength="30" id="ville" name="ville">
-				</select>
+				{{ form_widget(sortieForm.site) }}
 			</div>
 		</div> <br>
 
@@ -40,11 +39,10 @@
 		</div>
 
 			<div class="input-group col-md-2">
-				<label for="ville">Ville :</label>
+				{{ form_label(sortieForm.city) }}
 			</div>
 			<div class="input-group col-md-4">
-				<select class="form-control" maxlength="30" id="ville" name="ville">
-				</select>
+				{{ form_widget(sortieForm.city) }}
 			</div>
 		</div> <br>
 
@@ -73,9 +71,12 @@
 			</div>
 
 		<div class="col">
-			<label for="rue">Rue :</label>
+			{{ form_label(sortieForm.street) }}
 		</div>
-			</div> <br>
+			<div class="input-group col-md-4">
+				{{ form_widget(sortieForm.street) }}
+			</div>
+		</div> <br>
 
 		<div class="row">
 			<div class="input-group col-md-2">
@@ -86,9 +87,12 @@
 			</div>
 
 		<div class="col">
-			<label for="city">Ville :</label>
-				</div>
-		</div> <br>
+			{{ form_label(sortieForm.zipCode) }}
+		</div>
+		<div class="input-group col-md-4">
+			{{ form_widget(sortieForm.zipCode) }}
+		</div>
+	</div> <br>
 
 		<div class="row">
 			<div class="input-group col-md-2">
@@ -97,11 +101,6 @@
 			<div class="input-group col-md-4">
 			{{ form_widget(sortieForm.eventDetails) }}
 		</div>
-
-			<div class="col">
-				<label for="cp">Code postal :</label>
-			</div>
-		</div> <br>
 
 		</div>
 			</div>
