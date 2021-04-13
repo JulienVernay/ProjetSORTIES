@@ -19,7 +19,7 @@ class CancelEventFormType extends AbstractType
             ->add('motifCancel', TextareaType::class, [
                 'label' => 'Motif :',
                 'attr' => [
-                    'rows' => "5",
+                    'rows' => "6"
                 ]
             ]);
     }
