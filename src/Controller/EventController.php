@@ -41,13 +41,11 @@ class EventController extends AbstractController
     {
         $event = new Event();
 
-        $event->setStartingDateTime(new \DateTime('now'));
 
-        $inscriptionDeadLine = new \DateTime('now');
-        $inscriptionDeadLine->modify("+1 day");
+
 
         $locationRepo = $this->getDoctrine()->getRepository(Location::class);
-        $event->setInscriptionDeadLine($inscriptionDeadLine);
+
         $sortieForm = $this->createForm(CreateEventFormType::class, $event);
         $sortieForm->handleRequest($request);
 
@@ -182,7 +180,7 @@ class EventController extends AbstractController
         $annulationForm->handleRequest($request);
 
         if($annulationForm->isSubmitted() && $annulationForm->isValid()){
-            $annulation = $annulationForm['annulationForm']->getData();
+            $annulation = $annulationForm['motifCancel']->getData();
             $status = $this->getDoctrine()->getRepository(State::class)
                 ->findOneBy(['label'=>'Annulee']);
             $event->setStatus($status);

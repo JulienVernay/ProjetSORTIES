@@ -3,13 +3,7 @@
 {% block title %} Détail d'une sortie {% endblock %}
 
 {% block body %}
-    {% for type, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ type }}" role="alert">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endfor %}
+
     {% if (event.status.id == 6) %}
         <h1>LA SORTIE {{ event.name }} EST ANNULEE</h1>
     {% endif %}
@@ -40,7 +34,7 @@
                 <a class="btn btn-lg btn-outline-danger" href="{{ path('cancelEvent', {"id": event.id }) }}">Annuler</a>
                 {% if(event.status.id == 1) %}
                     <a class="btn btn-lg btn-outline-info"
-                       href="{{ path('event-details', {"id": sortie.id }) }}">Modifier</a>
+                       href="{{ path('event-details', {"id": event.id }) }}">Modifier</a>
                 {% endif %}
             {% endif %}
         {% endif %}</p>
@@ -103,6 +97,9 @@
 
         <h4>Code Postal</h4>
         <p>{{ event.location.city.zipCode  }}</p>
+
+        <h4>Organisateur</h4>
+        <a href="{{ path('user_profile', {'id': event.organizer.id}) }}">{{ event.organizer.username  }}</a>
     </div>
     </div>
     </div>
