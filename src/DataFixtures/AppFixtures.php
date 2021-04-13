@@ -40,7 +40,7 @@ class AppFixtures extends Fixture
 
         $allCampus = $manager->getRepository(Campus::class)->findAll();
 
-        for($i = 0; $i < 10; $i++) {
+        for($i = 0; $i < 30; $i++) {
             $faker = \Faker\Factory::create("fr_FR");
             $user = new User();
             $user->setFirstName($faker->name());
@@ -55,9 +55,23 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
 
+        $user = new User();
+        $faker = \Faker\Factory::create("fr_FR");
+        $user->setFirstName("Dimitri");
+        $user->setLastName("GERMANY");
+        $user->setPhone("0123456789");
+        $user->setmail($faker->email());
+        $user->setUsername("dim");
+        $user->setPassword($this->encoder->encodePassword($user, "0123456"));
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setCampus($faker->randomElement($allCampus));
+        $manager->persist($user);
+        $manager->flush();
 
 
-        for($i = 0; $i < 10; $i++) {
+
+
+        for($i = 0; $i < 30; $i++) {
             $faker = \Faker\Factory::create("fr_FR");
             $city = new City();
             $city->setName($faker->city());
@@ -68,7 +82,7 @@ class AppFixtures extends Fixture
 
         $allCities = $manager->getRepository(City::class)->findAll();
 
-        for($i = 0; $i < 10; $i++) {
+        for($i = 0; $i < 30; $i++) {
             $faker = \Faker\Factory::create("fr_FR");
             $location = new Location();
             $location->setName($faker->name());
@@ -114,14 +128,14 @@ class AppFixtures extends Fixture
         $allCampus = $manager->getRepository(Campus::class)->findAll();
 
         //plein de création d'événements
-        for($i = 0; $i < 10; $i++) {
+        for($i = 0; $i < 30; $i++) {
 
             $event = new Event();
             $event->setName( $faker->sentence );
             $event->setEventDetails( $faker->realText(1000) );
             $event->setNbMaxRegistration(mt_rand(10, 100));
             $event->setStartingDateTime( $faker->dateTimeBetween('now', '+ 6 months') );
-            $event->setDuration( $faker-> dateTimeBetween('+ 1 month', "+ 6 months"));
+            $event->setDuration(mt_rand(1, 20));
 
             //un utilisateur au hasard en tant qu'organisateur
             $event->setOrganizer( $faker->randomElement($allUsers) );

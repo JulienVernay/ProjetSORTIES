@@ -22,7 +22,7 @@ class HomeController extends AbstractController
         {
             return $this->redirectToRoute('app_login');
         }
-        $events = $em->getRepository('App:Event')->findAll();
+        $events = $this->getDoctrine()->getRepository('App:Event')->findAll();
 
         return $this->render('home/home.html.twig',[
             'events' => $events

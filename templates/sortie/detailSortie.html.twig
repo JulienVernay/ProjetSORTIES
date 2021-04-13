@@ -79,10 +79,10 @@
             <p>{{ event.duration }}</p>
 
             <h4>Date de début</h4>
-            <p>{{ event.startingDateTime |date("m/d/Y") }}</p>
+            <p>{{ event.startingDateTime |date("d/m/Y") }}</p>
 
             <h4>Date Limite d'inscription</h4>
-            <p>{{ event.inscriptionDeadLine |date("m/d/Y") }}</p>
+            <p>{{ event.inscriptionDeadLine |date("d/m/Y") }}</p>
 
             <h4>Nombre maximum d'inscrit</h4>
             <p>{{ event.nbMaxRegistration }}</p>
