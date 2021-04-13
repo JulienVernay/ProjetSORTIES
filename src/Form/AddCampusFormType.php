@@ -13,8 +13,7 @@ class AddCampusFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('campusName', null, ['label'=>false])
-            ->add('ajouter', SubmitType::class)
+            ->add('campusName', null, ['label'=>false, 'attr'=>['placeholder'=>'Ajouter un campus']])
         ;
     }
 

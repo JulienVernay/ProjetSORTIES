@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\Campus;
 use App\Form\AddCampusFormType;
@@ -18,14 +16,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class CampusController extends AbstractController
 {
     /**
-     * @Route ("/campus/", name="campus")
+     * @Route ("/campus", name="campus")
      */
     public function search_add(Request $request, CampusRepository $campusRepository, EntityManagerInterface $em){
         $newCampus = new Campus();
 
         $addCampusForm = $this->createForm(AddCampusFormType::class, $newCampus);
         $addCampusForm->handleRequest($request);
-
 
         $searchCampusForm = $this->createForm(SearchCampusFormType::class);
         $searchCampusForm->handleRequest($request);

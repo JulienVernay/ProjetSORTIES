@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+
+
 use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -22,6 +24,19 @@ class CityRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, City::class);
     }
+
+    public function searchCity($nameCity, $zipCodeCity)
+    {
+        return $this->createQueryBuilder('city')
+            ->andWhere('city.name LIKE :name')
+            ->setParameter('name', '%'.$nameCity['name'].'%')
+            ->andWhere('city.zipCode LIKE :zipCode')
+            ->setParameter('zipCode', '%'.$zipCodeCity['zipCode'].'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     // /**
     //  * @return City[] Returns an array of City objects

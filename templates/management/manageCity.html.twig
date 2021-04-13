@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ "Gestion des campus"}}{% endblock %}
+{% block title %}{{ "Gestion des villes"}}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -22,31 +22,36 @@
             {% endfor %}
         </div>
         <br>
-        {{ form_start(search_form) }}
+        {{ form_start(search_city_form) }}
         <div class="row justify-content-md-center">
             <div class="input-group col-md-6">
-                {{ form_row(search_form.campusName) }}
+                {{ form_row(search_city_form.name) }}
             </div>
-            <div class="input-group col-md-4">
+            <div class="input-group col-md-6">
+                 {{ form_row(search_city_form.zipCode) }}
+            </div>
+            <div class="input-group col-md-2">
                 <button class="btn btn-info" type="submit" name="rechercher">Rechercher</button>
-                {{ form_end(search_form) }}
+                {{ form_end(search_city_form) }}
             </div>
-            <br>
+
 
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Campus</th>
+                    <th scope="col">Ville</th>
+                    <th scope="col">Département</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% if campus |length > 0 %}
-                    {% for c in campus %}
+                {% if city |length > 0 %}
+                    {% for c in city %}
                         <tr>
-                            <td scope="row">{{ c.campusName }}</td>
+                            <td scope="row">{{ c.name }}</td>
+                            <td scope="row">{{ c.zipCode }}</td>
                             <td>
-                                <a href="{{ path('modify_campus', {'id': c.id}) }}">Modifier</a> / <a href="{{ path('delete_campus', {'id': c.id}) }}">Supprimer</a>
+                                <a href="{{ path('modify_city', {'id': c.id}) }}">Modifier</a> / <a href="{{ path('delete_city', {'id': c.id}) }}">Supprimer</a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -56,16 +61,19 @@
                     </tr>
                 {% endif %}
 
-                {{ form_start(add_form) }}
+                {{ form_start(add_city_form) }}
                 <tr>
                     <td>
-                        {{ form_row(add_form.campusName) }}
+                        {{ form_row(add_city_form.name) }}
+                    </td>
+                    <td>
+                        {{ form_row(add_city_form.zipCode) }}
                     </td>
                     <td>
                         <button class="btn btn-info" type="submit" name="ajouter">Ajouter</button>
                     </td>
                 </tr>
-                {{ form_end(add_form) }}
+                {{ form_end(add_city_form) }}
                 </tbody>
             </table>
         </div>

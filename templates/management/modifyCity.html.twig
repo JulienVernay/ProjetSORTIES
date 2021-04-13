@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ "Modification du campus"}}{% endblock %}
+{% block title %}{{ "Modification de la ville"}}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -12,14 +12,17 @@
                 </div>
             </div>
         </div>
-        {{ form_start(modifyCampusForm) }}
+        {{ form_start(modifyCityForm) }}
         <div class="row justify-content-md-center">
             <div class="input-group col-md-6">
-                {{ form_row(modifyCampusForm.campusName) }}
+                {{ form_row(modifyCityForm.name) }}
+            </div>
+            <div class="input-group col-md-6">
+                {{ form_row(modifyCityForm.zipCode) }}
             </div>
             <div class="input-group col-md-2">
                 <button class="btn btn-info" type="submit" name="valider">Valider</button>
-                {{ form_end(modifyCampusForm) }}
+                {{ form_end(modifyCityForm) }}
             </div>
         </div>
     </div>

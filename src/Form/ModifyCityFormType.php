@@ -2,25 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\Campus;
+use App\Entity\City;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class GestionCampusFormType extends AbstractType
+class ModifyCityFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('campusName', null, ['label' => 'Le nom contient :'])
+            ->add('name', null, ['label'=>'Saisir nouveau nom :'])
+            ->add('zipCode', null, ['label'=>'Saisir nouveau code postal :'])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Campus::class,
+            'data_class' => City::class,
         ]);
     }
 }
