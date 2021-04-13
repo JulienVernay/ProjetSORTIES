@@ -194,6 +194,6 @@ class EventController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
-        return $this->render('sortie/cancelEvent.html.twig', ['annulationForm' => $annulationForm->createView()]);
+        return $this->render('sortie/cancelEvent.html.twig', ['annulationForm' => $annulationForm->createView(), 'event' => $event]);
     }
 }
