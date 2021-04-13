@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\CancelEventFormType;
 use App\Form\CreateEventFormType;
 use App\Form\LocationFormType;
 use App\Repository\CityRepository;
@@ -60,13 +61,13 @@ class EventController extends AbstractController
             $publier = 'publier';
 
             if ($env === $publier) {
-                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>1]);
+                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>2]);
                 $event->setStatus($etat);
                 $this->addFlash('success', 'Votre sortie a été publiée avec succès !');
 
 
             } elseif ($env === $enregister) {
-                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>2]);
+                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>1]);
                 $event->setStatus($etat);
                 $this->addFlash('success', 'Votre sortie a été enregistrée avec succès !');
 
@@ -160,5 +161,39 @@ class EventController extends AbstractController
         }
 
         return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
+    }
+
+
+    /**
+     * @Route("/cancelEvent/{id}", name="cancelEvent")
+     * @param EntityManagerInterface $entityManager
+     * @param Request $request
+     * @param $id
+     * @return Response
+     */
+    public function cancelEvent(EntityManagerInterface $entityManager, Request $request, $id): Response
+    {
+        $event = $this->getDoctrine()->getRepository(Event::class)->find($id);
+        if(empty($event)){
+            throw $this->createNotFoundException('Cette sortie n\'existe pas');
+        }
+
+        $annulationForm = $this->createForm(CancelEventFormType::class, $event);
+        $annulationForm->handleRequest($request);
+
+        if($annulationForm->isSubmitted() && $annulationForm->isValid()){
+            $annulation = $annulationForm['annulationForm']->getData();
+            $status = $this->getDoctrine()->getRepository(State::class)
+                ->findOneBy(['label'=>'Annulee']);
+            $event->setStatus($status);
+            $event->setMotifCancel($annulation);
+            $entityManager->persist($event);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'La sortie a bien été annulée');
+            return $this->redirectToRoute('index');
+        }
+
+        return $this->render('sortie/cancelEvent.html.twig', ['annulationForm' => $annulationForm->createView()]);
     }
 }

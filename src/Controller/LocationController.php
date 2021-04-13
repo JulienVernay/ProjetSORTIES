@@ -38,6 +38,6 @@ class LocationController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->render('sortie/createEvent.html.twig', ['formLocation'=>$formLocation->createView(), 'location'=>$locationRepo]);
+        return $this->render('sortie/selectLocation.html.twig', ['formLocation'=>$formLocation->createView(), 'location'=>$locationRepo]);
     }
 }

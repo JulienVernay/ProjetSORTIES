@@ -74,6 +74,11 @@ class Event
     private $site;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $motifCancel;
+
+    /**
      * @ORM\ManyToMany(targetEntity=User::class, mappedBy="registeredEvents")
      */
     private $registeredMembers;
@@ -250,6 +255,18 @@ class Event
         if ($this->registeredMembers->removeElement($registeredMember)) {
             $registeredMember->removeRegisteredEvent($this);
         }
+
+        return $this;
+    }
+
+    public function getMotifCancel(): ?string
+    {
+        return $this->motifCancel;
+    }
+
+    public function setMotifCancel(string $motifCancel): self
+    {
+        $this->motifCancel = $motifCancel;
 
         return $this;
     }

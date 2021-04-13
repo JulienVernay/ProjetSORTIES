@@ -37,7 +37,7 @@
 
         {% if (event.status.id == 2 ) %}
             {% if (app.user == event.organizer) %}
-                <a class="btn btn-lg btn-outline-danger" href="{{ path('event-details', {"id": event.id }) }}">Annuler</a>
+                <a class="btn btn-lg btn-outline-danger" href="{{ path('cancelEvent', {"id": event.id }) }}">Annuler</a>
                 {% if(event.status.id == 1) %}
                     <a class="btn btn-lg btn-outline-info"
                        href="{{ path('event-details', {"id": sortie.id }) }}">Modifier</a>
