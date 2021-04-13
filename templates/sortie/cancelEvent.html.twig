@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+	<h1 class="m-3 text-center">Annuler une sortie</h1>
+	<div class="col-sm-6 offset-sm-3">
+		{{ form_start(annulationForm) }}
+		{{ form_row(annulationForm.motifCancel) }}
+
+	</div>
+
+	<div class="row col-sm-8 offset-sm-2 mt-5">
+		<div class="col-5">
+				<button type="submit" class="btn btn-success btn-lg btn-block mr-5" formnovalidate>Annuler la sortie</button></a>
+		</div>
+		<div class="col-5 offset-2">
+			<a href="#">
+				<button type="submit" class="btn btn-danger btn-lg btn-block ml-5" formnovalidate>Retour</button></a>
+			{{ form_end(annulationForm) }}
+		</div>
+	</div>
+
+{% endblock %}
