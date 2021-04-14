@@ -6,12 +6,16 @@ use App\Entity\Campus;
 use App\Entity\User;
 use App\Form\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
+
+use Gedmo\Sluggable\Util\Urlizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class UserController extends AbstractController
 {
@@ -47,13 +51,28 @@ class UserController extends AbstractController
         $id = $request->get('id');
         $user = $em->getRepository('App:User')->find($id);
         $campusRepo = $this->getDoctrine()->getRepository(Campus::class);
+
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            $uploadedFile = ($form['imageFile']->getData());
+            if ($uploadedFile) {
+                $destination = $this->getParameter('kernel.project_dir') . '/public/uploads/photo';
 
+                $originalFileName = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFileName = Urlizer::urlize($originalFileName) . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+
+                $uploadedFile->move(
+                    $destination,
+                    $newFileName
+                );
+
+                $user->setImageFileName($newFileName);
+            }
             $user->setPassword(
                 $passwordEncoder->encodePassword(
+
                     $user,
                     $form->get('password')->getData()
                 )
@@ -61,6 +80,7 @@ class UserController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('success', 'Profil modifié');
             return $this->redirectToRoute('user_profile', ['id'=>$user->getId()]);
+
         }
         return $this->render('user/userModify.html.twig', ['userForm'=>$form->createView(), 'campus'=>$campusRepo]);
 

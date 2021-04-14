@@ -79,6 +79,27 @@ class User implements UserInterface
      */
     private $campus;
 
+    /**
+     * @ORM\Column (type="string", length=255, nullable=true)
+     */
+    private $imageFileName;
+
+    /**
+     * @return mixed
+     */
+    public function getImageFileName()
+    {
+        return $this->imageFileName;
+    }
+
+    /**
+     * @param mixed $imageFileName
+     */
+    public function setImageFileName($imageFileName): void
+    {
+        $this->imageFileName = $imageFileName;
+    }
+
     public function __construct()
     {
         $this->registeredEvents = new ArrayCollection();
