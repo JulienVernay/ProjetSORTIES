@@ -60,7 +60,8 @@ class CityController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/city/delete/{id}", requirements={"id":"\d+"}, name="delete_city", methods={"GET", "POST"})
      */
-    public function deleteCity($id, EntityManagerInterface $em){
+    public function deleteCity($id, EntityManagerInterface $em): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
         $repo = $em->getRepository(City::class);
         $city = $repo->find($id);
 
@@ -78,7 +79,8 @@ class CityController extends AbstractController
      * @return Response
      * @Route("city/modify/{id}", requirements={"id":"\d+"}, name="modify_city")
      */
-    public function modifyCity(Request $request, EntityManagerInterface $em){
+    public function modifyCity(Request $request, EntityManagerInterface $em): Response
+    {
         $id = $request->get('id');
         $city = $em->getRepository('App:City')->find($id);
         $form = $this->createForm(ModifyCityFormType::class, $city);

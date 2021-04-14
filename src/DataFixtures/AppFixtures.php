@@ -55,6 +55,7 @@ class AppFixtures extends Fixture
         }
         $manager->flush();
 
+
         $user = new User();
         $faker = \Faker\Factory::create("fr_FR");
         $user->setFirstName("Dimitri");
@@ -64,6 +65,32 @@ class AppFixtures extends Fixture
         $user->setUsername("dim");
         $user->setPassword($this->encoder->encodePassword($user, "0123456"));
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setCampus($faker->randomElement($allCampus));
+        $manager->persist($user);
+        $manager->flush();
+
+        $user = new User();
+        $faker = \Faker\Factory::create("fr_FR");
+        $user->setFirstName("test");
+        $user->setLastName("test");
+        $user->setPhone("0123456789");
+        $user->setmail($faker->email());
+        $user->setUsername("test");
+        $user->setPassword($this->encoder->encodePassword($user, "0123456"));
+        $user->setRoles(['ROLE_ADMIN']);
+        $user->setCampus($faker->randomElement($allCampus));
+        $manager->persist($user);
+        $manager->flush();
+
+        $user = new User();
+        $faker = \Faker\Factory::create("fr_FR");
+        $user->setFirstName("test1");
+        $user->setLastName("test1");
+        $user->setPhone("0123456789");
+        $user->setmail($faker->email());
+        $user->setUsername("test1");
+        $user->setPassword($this->encoder->encodePassword($user, "0123456"));
+        $user->setRoles(['ROLE_USER']);
         $user->setCampus($faker->randomElement($allCampus));
         $manager->persist($user);
         $manager->flush();

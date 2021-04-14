@@ -55,7 +55,8 @@ class CampusController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/campus/delete/{id}", requirements={"id":"\d+"}, name="delete_campus", methods={"GET", "POST"})
      */
-    public function deleteCampus($id, EntityManagerInterface $em){
+    public function deleteCampus($id, EntityManagerInterface $em): \Symfony\Component\HttpFoundation\RedirectResponse
+    {
         $repo = $em->getRepository(Campus::class);
         $campus = $repo->find($id);
 
