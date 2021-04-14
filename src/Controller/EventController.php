@@ -4,26 +4,21 @@ namespace App\Controller;
 
 use App\Form\CancelEventFormType;
 use App\Form\CreateEventFormType;
-use App\Form\LocationFormType;
+use App\Form\ModifyEventType;
 use App\Repository\CityRepository;
 use App\Repository\EventRepository;
 use App\Repository\StateRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use App\Entity\Campus;
-use App\Entity\City;
 use App\Entity\Event;
 use App\Entity\Location;
 use App\Entity\State;
-use App\Entity\User;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class EventController extends AbstractController
 {
@@ -40,10 +35,6 @@ class EventController extends AbstractController
                              StateRepository $stateRepository, CityRepository $cityRepository): Response
     {
         $event = new Event();
-
-
-
-
         $locationRepo = $this->getDoctrine()->getRepository(Location::class);
 
         $sortieForm = $this->createForm(CreateEventFormType::class, $event);
@@ -80,30 +71,11 @@ class EventController extends AbstractController
 
     }
 
-    // Ajouter un lieu
-    public function eventAddLocation(EntityManagerInterface $entityManager, StateRepository $stateRepository,EventRepository $eventRepository, Request $request): Response
-    {
-        $location = new Location();
-
-        $formLocation = $this->createForm(LieuType::class, $location);
-        $formLocation->handleRequest($request);
-
-        if($formLocation->isSubmitted() && $formLocation->isValid()){
-            $location = $formLocation->getData();
-            $entityManager->persist($location);
-            $entityManager->flush();
-        }
-
-        return $this->render('sorties/createEvent.html.twig', [
-            "LocationFormType" => $formLocation->createView(),
-        ]);
-    }
-
     /**
      * @Route(name="event-details", methods={"GET","POST"}, path="detail/{id}", requirements={"id": "\d+"})
      *
      */
-    public function eventDetails($id, EventRepository $eventRepo)
+    public function eventDetails($id, EventRepository $eventRepo): Response
     {
         $event =$eventRepo->find($id);
 
@@ -114,7 +86,7 @@ class EventController extends AbstractController
      * @Route(name="inscriptionEvent",path="inscriptionEvent/{id}", requirements={"id": "\d+"} ,methods={"POST","GET"})
      *
      */
-    public function inscriptionEvent($id, EventRepository $eventRepo, EntityManagerInterface $entityManager)
+    public function inscriptionEvent($id, EventRepository $eventRepo, EntityManagerInterface $entityManager): Response
     {
         $event = $eventRepo->find($id);
         $participant = $this->getUser();
@@ -123,6 +95,11 @@ class EventController extends AbstractController
         $event->getNbMaxRegistration() > $event->getRegisteredMembers()->count()) {
 
             $event -> addRegisteredMember($participant);
+            
+            if ($event->getNbMaxRegistration() == $event->getRegisteredMembers()->count()){
+                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>3]);
+                $event ->setStatus($etat);
+            }
             $entityManager -> persist($event);
             $entityManager ->flush();
 
@@ -137,10 +114,10 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route(name="deinscriptionEvent",path="deinscriptionEvent/{id}", requirements={"id": "\d+"} ,methods={"POST","GET"})
+     * @Route(name="desinscriptionEvent",path="desinscriptionEvent/{id}", requirements={"id": "\d+"} ,methods={"POST","GET"})
      *
      */
-    public function deinscriptionEvent($id, EventRepository $eventRepo, EntityManagerInterface $entityManager)
+    public function desinscriptionEvent($id, EventRepository $eventRepo, EntityManagerInterface $entityManager): Response
     {
         $event = $eventRepo->find($id);
         $participant = $this->getUser();
@@ -194,4 +171,32 @@ class EventController extends AbstractController
 
         return $this->render('sortie/cancelEvent.html.twig', ['annulationForm' => $annulationForm->createView(), 'event' => $event]);
     }
+
+    /**
+     * @Route("/modifyEvent/{id}", name="modify_event", methods={"GET","POST"})
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    public function modifyEvent(Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $id = $request->get('id');
+        $event = $this->getDoctrine()->getRepository(Event::class)->find($id);
+        $locationRepo = $this->getDoctrine()->getRepository(Location::class)->find($event->getLocation()->getId());
+
+        $eventForm = $this->createForm(CreateEventFormType::class, $event);
+        $eventForm->handleRequest($request);
+
+        if ($eventForm->isSubmitted() && $eventForm->isValid()) {
+
+            $entityManager->persist($event);
+            $entityManager->flush();
+            $this->addFlash('success', "L'évenement a été modifié avec succès");
+            return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
+        }
+
+        return $this->render('sortie/modifyEvent.html.twig', ['sortieForm' => $eventForm->createView(), 'location' => $locationRepo, 'event' => $event]);
+
+    }
+
 }

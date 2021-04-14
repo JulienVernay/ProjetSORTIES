@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Location;
+use App\Form\LocationFormType;
 use App\Repository\CityRepository;
 use App\Repository\LocationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,10 +24,9 @@ class LocationController extends AbstractController
      */
     public function addLocation(Request $request, CityRepository $cityRepo, LocationRepository $locationRepo, EntityManagerInterface $entityManager): Response
     {
-        // Ajouter un lieu
         $location = new Location();
 
-        $formLocation = $this->createForm(LieuType::class, $location);
+        $formLocation = $this->createForm(LocationFormType::class, $location);
         $formLocation->handleRequest($request);
         $locationRepo = $this->getDoctrine()->getRepository(Location::class);
 

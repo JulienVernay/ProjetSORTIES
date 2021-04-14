@@ -9,11 +9,9 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use Gedmo\Sluggable\Util\Urlizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -42,7 +40,6 @@ class UserController extends AbstractController
      * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param EntityManagerInterface $em
-     * @param User $user
      * @return Response
      * @Route("user/{id}/modify", name="user_modify", methods={"GET", "POST"})
      */

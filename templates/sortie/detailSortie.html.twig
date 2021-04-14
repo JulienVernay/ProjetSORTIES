@@ -5,7 +5,7 @@
 {% block body %}
 
     {% if (event.status.id == 6) %}
-        <h1>LA SORTIE {{ event.name }} EST ANNULEE</h1>
+        <h3>LA SORTIE {{ event.name }} EST ANNULEE</h3>
     {% endif %}
     {% if (event.status.id < 6) %}
 
@@ -13,9 +13,9 @@
 
 
         <div class="jumbotron">
-        <h1 class="display-3">Sortie {{ event.name }}</h1>
+        <h3 class="display-3">{{ event.name }}</h3>
     {% endif %}
-    <p class="lead">{{ event.eventDetails }}</p>
+    <p class="lead text-align-center">{{ event.eventDetails }}</p>
     <p>    {% if(event.registeredMembers| length < event.nbMaxRegistration) and app.user not in event.registeredMembers and event.inscriptionDeadLine  > date() %}
             {% if (event.status.id == 2) %}
                 <a class="btn btn-lg btn-info" href="{{ path('inscriptionEvent', {"id": event.id }) }}">S'inscrire</a>
@@ -24,7 +24,7 @@
 
         {% if (event.status.id == 2 ) %}
             {% if(app.user in event.registeredMembers) %}
-                <a class="btn btn-lg btn-info" href="{{ path('deinscriptionEvent', {"id": event.id }) }}">Se
+                <a class="btn btn-lg btn-info" href="{{ path('desinscriptionEvent', {"id": event.id }) }}">Se
                     désinscrire</a>
             {% endif %}
         {% endif %}
@@ -32,10 +32,8 @@
         {% if (event.status.id == 2 ) %}
             {% if (app.user == event.organizer) %}
                 <a class="btn btn-lg btn-outline-danger" href="{{ path('cancelEvent', {"id": event.id }) }}">Annuler</a>
-                {% if(event.status.id == 1) %}
                     <a class="btn btn-lg btn-outline-info"
-                       href="{{ path('event-details', {"id": event.id }) }}">Modifier</a>
-                {% endif %}
+                       href="{{ path('modify_event', {"id": event.id }) }}">Modifier</a>
             {% endif %}
         {% endif %}</p>
     </div>
