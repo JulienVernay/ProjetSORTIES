@@ -141,4 +141,36 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator implements Passwor
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
+
+    public function rememberMe()
+    {
+        //Si on clique sur le bouton "submited"
+        if (isset($_POST['submited'])) {
+
+            //On déclare nos variables qui arrivent du formulaire
+            $username = $_POST['username'];
+            $password = $_POST['password'];
+
+            //Si la case est cochée
+            if ($_POST['remember_me']) {
+                //On set 2 cookies un pour l'utilisateur et un pour le mot de passe
+
+                //le nom du cookie "remembermeu" la valeur "$username" et la durée "time() + 31536000"
+                setcookie('remember_me_u', $username, time() + 31536000);
+
+                //le nom du cookie "remembermep" la valeur "$password" et la durée "time() + 31536000"
+                setcookie('remember_me_p', $password, time() + 31536000);
+            } //Si la case est décochée
+            elseif (!$_POST['remember_me']) {
+
+                //On cherche pour nos 2 cookies
+                if (isset($_COOKIE['remember_me_u'], $_COOKIE['remember_me_p'])) {
+                    //Nous les plaçons comme si ils avaient expirés
+                    $past = time() - 100;
+                    setcookie(remember_me_u, gone, $past);
+                    setcookie(remember_me_p, gone, $past);
+                }
+            }
+        }
+    }
 }
