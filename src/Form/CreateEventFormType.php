@@ -41,9 +41,9 @@ class CreateEventFormType extends AbstractType
             ->add('startingDateTime',DateTimeType::class,[
                 'label' => "Date et heure de la sortie :",
                 'widget' => 'single_text',
-                'empty_data' => '',
-                'attr' => ['class' => 'js-datepicker'],
-                'required' => true,
+                'input' => 'datetime',
+                'html5' => 'false',
+                'required' => true
             ])
             ->add('duration',IntegerType::class,[
                 'label' => "Durée :",
@@ -55,12 +55,12 @@ class CreateEventFormType extends AbstractType
             ->add('inscriptionDeadLine',DateTimeType::class,[
                 'label' => "Date limite d'inscription :",
                 'widget' => 'single_text',
-                'empty_data' => null,
-                'attr' => ['class' => 'js-datepicker'],
+                'html5' => 'false',
+                'input' => 'datetime',
                 'required' => true
 
             ])
-            ->add('nbMaxRegistration',NumberType::class,[
+            ->add('nbMaxRegistration',IntegerType::class,[
                 'label' => "Nombre de places :",
                 'attr' => [
                     'min' => 1

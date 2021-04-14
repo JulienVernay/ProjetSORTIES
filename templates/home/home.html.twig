@@ -42,9 +42,9 @@
                     <p class="card-text text-truncate">{{ event.eventDetails }} </p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Date de début : {{ event.startingDateTime|date('d-m-Y')}}</li>
+                    <li class="list-group-item">Date de début : {{ event.startingDateTime|format_datetime(locale='fr')}}</li>
                     <li class="list-group-item">Durée : {{ event.duration}}</li>
-                    <li class="list-group-item">Date de fin des inscriptions : {{ event.inscriptionDeadLine|date('d-m-Y')}}</li>
+                    <li class="list-group-item">Date de fin des inscriptions : {{ event.inscriptionDeadLine|format_datetime(locale='fr')}}</li>
                     <li class="list-group-item">Nombre de participant max : {{ event.nbMaxRegistration }}</li>
                     <li class="list-group-item">Status : {{ event.status.label }}</li>
                 </ul>
