@@ -24,16 +24,15 @@
             </div>
         </div>
         <div class="m-5 ">
-            <h2 class="text-center">Inscriptions possibles</h2>
+            <h2 class="text-center">Sorties à venir</h2>
             <div class="row m-5 ">
                 {% for event in events %}
-                    {% if event.status.id == 2 %}
+                    {% if event.status.id == 1 %}
                         <div class="col-3 p-2 ">
                             <div class="card float-sm-left" style="width: 20rem;">
                                 <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">
                                     <img class="card-img-top" src="http://placebeard.it/300/200" alt="Card image cap">
                                 </a>
-
                                 <div class="card-body">
                                     <a href="{{ url('event-details', {"id": event.id}) }}" class="card-title text-center">{{ event.name }}</a>
                                     <p class="card-text text-truncate">{{ event.eventDetails }} </p>
@@ -61,10 +60,47 @@
                             </div>
                         </div>
                     {% endif %}
-                {% else %}
-
-                    <p>Aucune sortie n'a été trouvé</p>
-
+                {% endfor %}
+                <p>Aucune sortie n'a été trouvé</p>
+            </div>
+        </div>
+        <div class="m-5 ">
+            <h2 class="text-center">Inscriptions possibles</h2>
+            <div class="row m-5 ">
+                {% for event in events %}
+                    {% if event.status.id == 2 %}
+                        <div class="col-3 p-2 ">
+                            <div class="card float-sm-left" style="width: 20rem;">
+                                <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">
+                                    <img class="card-img-top" src="http://placebeard.it/300/200" alt="Card image cap">
+                                </a>
+                                <div class="card-body">
+                                    <a href="{{ url('event-details', {"id": event.id}) }}" class="card-title text-center">{{ event.name }}</a>
+                                    <p class="card-text text-truncate">{{ event.eventDetails }} </p>
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Date et heure de l'evenement</strong> <br>
+                                        {{ event.startingDateTime|format_datetime(locale='fr')}}</li>
+                                    <li class="list-group-item"><strong>Date de fin des inscriptions</strong> <br>
+                                        {{ event.inscriptionDeadLine|format_datetime(locale='fr')}}</li>
+                                    <li class="list-group-item"><strong>Nombre inscrit </strong> <br>
+                                        {{ event.registeredMembers.count }}/ {{ event.nbMaxRegistration }} places </li>
+                                </ul>
+                                <div class="card-body">
+                                    {% if event.status.id == 6 %}
+                                        <p class="alert-danger">ANNULEE</p>
+                                    {% else %}
+                                        {% if event.status.id < 5 %}
+                                            <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
+                                            {% if event.organizer == app.user %}
+                                                <a href="{{url('modify_event',{"id": event.id})}}" class="card-link">Modifier l'evenement</a>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         </div>
@@ -104,10 +140,6 @@
                         </div>
                     </div>
                 {% endif %}
-            {% else %}
-
-                <p>Aucune sortie n'a été trouvé</p>
-
             {% endfor %}
         </div>
     </div>
@@ -146,9 +178,6 @@
                         </div>
                     </div>
                 {% endif %}
-            {% else %}
-
-                <p>Aucune sortie n'a été trouvé</p>
 
             {% endfor %}
         </div>

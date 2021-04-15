@@ -8,6 +8,7 @@ use App\Form\ModifyCityFormType;
 use App\Form\SearchCityFormType;
 use App\Repository\CityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ class CityController extends AbstractController
 {
     /**
      * @Route ("/city", name="city")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
      */
     public function search_add(Request $request, CityRepository $cityRepository, EntityManagerInterface $em){
         $newCity = new City();
@@ -59,6 +61,7 @@ class CityController extends AbstractController
      * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/city/delete/{id}", requirements={"id":"\d+"}, name="delete_city", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
      */
     public function deleteCity($id, EntityManagerInterface $em): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -78,6 +81,7 @@ class CityController extends AbstractController
      * @param EntityManagerInterface $em
      * @return Response
      * @Route("city/modify/{id}", requirements={"id":"\d+"}, name="modify_city")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
      */
     public function modifyCity(Request $request, EntityManagerInterface $em): Response
     {
