@@ -15,7 +15,8 @@ class CancelEventFormType extends AbstractType
                 'label' => 'Motif :',
                 'attr' => [
                     'rows' => "6"
-                ]
+                ],
+                'required' => true
             ]);
     }
 }
