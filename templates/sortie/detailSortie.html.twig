@@ -29,7 +29,7 @@
             {% endif %}
         {% endif %}
 
-        {% if (event.status.id == 2 ) %}
+        {% if (event.status.id == 2 or event.status.id == 3 ) %}
             {% if (app.user == event.organizer) %}
                 <a class="btn btn-lg btn-outline-danger" href="{{ path('cancelEvent', {"id": event.id }) }}">Annuler</a>
                     <a class="btn btn-lg btn-outline-info"

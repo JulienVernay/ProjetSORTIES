@@ -3,9 +3,8 @@
 {% block body %}
 {% if app.user %}
     <div class="mb-3">
-        <h3 class="text-center">Bienvenue sur Sortir.com {{ app.user.username }}</h3>
+        <h3 class="text-center">Bienvenue sur Sortir.com   <strong>{{ app.user.username }}</strong></h3>
     </div>
-
     <div class="owl-carousel owl-theme">
         <div class="slide slide-1">
             <div class="slide-content">
@@ -30,7 +29,7 @@
         </div>
     </div>
 
-    <h1>Toutes les sorties</h1>
+    <h1>Sortie</h1>
     <div class="row m-5">
 
     {% for event in events %}
@@ -50,7 +49,7 @@
                 </ul>
                 <div class="card-body">
                     {% if event.status.id == 6 %}
-                        <p class="alert-danger">SORTIE ANNULÉE</p>
+                        <p class="alert-danger">ANNULEE</p>
                     {% else %}
                         {% if event.status.id < 5 %}
                     <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
