@@ -1,7 +1,8 @@
 
 .welcome {
-    color: white;
     text-align: center;
+    color: #FFFFFF;
+    background: #0e8dbc;
 }
 
 .box{
@@ -13,13 +14,14 @@
     transform: translate(-50%,-50%);
     background: #ffff;
     text-align: center;
-    box-shadow: 3px 3px black, 1em 0 .4em #757575;
+    box-shadow: -13px 11px 10px 0px rgba(50, 50, 50, 0.75);
 }
 .box h2{
     color: #757575;
     text-transform: uppercase;
     font-weight: 200;
 }
+
 .box input[type = "text"],.box input[type = "password"]{
     background: none;
     display: block;
