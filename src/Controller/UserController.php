@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Campus;
+use App\Entity\User;
 use App\Form\UserFormType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Gedmo\Sluggable\Util\Urlizer;
@@ -80,5 +82,18 @@ class UserController extends AbstractController
         }
         return $this->render('user/userModify.html.twig', ['userForm'=>$form->createView(), 'campus'=>$campusRepo]);
 
+    }
+
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @Route("user/{id}/delete", requirements={"id": "\d+"}, name="delete_photo", methods={"GET", "POST"})
+     */
+    public function deletePhoto(Request $request, UserRepository $userRepository, EntityManagerInterface $em){
+        $id = $request->get('id');
+        $user = $em->getRepository('App:User')->find($id)->setImageFileName('');
+
+        $em->flush();
+        return $this->redirectToRoute('user_modify', ['id'=>$id]);
     }
 }

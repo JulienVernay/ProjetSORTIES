@@ -68,9 +68,13 @@
             <div class="row col-md-4">
                 <div class="float-right">
                     <img src="{{ asset('uploads/photo/') }}{{ app.user.imageFileName }}" class="rounded" alt="Pas de photo à afficher" width="150">
+                    <br>
+                    {% if app.user.imageFileName %}
+                    <a href="{{ url('delete_photo', {'id': app.user.id}) }}">Supprimer la photo</a>
+                    {% endif %}
+
                     <div class="row form-group">
                         <div class="mb-3">
-                            <label for="formFile" class="form-label">Choisir une photo</label>
                             <div class="form-control" type="file" id="formFile">
                                 {{ form_row(userForm.imageFile) }}
                             </div>
