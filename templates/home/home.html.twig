@@ -8,23 +8,15 @@
     <div class="owl-carousel owl-theme">
         <div class="slide slide-1">
             <div class="slide-content">
-                <h1>Bienvenue sur Sortir.com</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. In voluptas eaque nobis ducimus voluptate molestiae corporis mollitia atque totam eligendi voluptatem vitae, quibusdam, vero delectus repudiandae tempore sint officiis odio.</p>
-                <button>Lorem</button>
+                <h1>Sortir.com ça sert à quoi ?</h1>
+                <p>Le plus beau des sites pour s'inscrire à toutes les sorties qui vont font envie.
+                   <br> Une sortie en particulier vous intéresse ? n'attendez plus, inscrivez-vous !</p>
             </div>
         </div>
         <div class="slide slide-2">
             <div class="slide-content">
-                <h1>Lorem, ipsum dolor sit amet</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. In voluptas eaque nobis ducimus voluptate molestiae corporis mollitia atque totam eligendi voluptatem vitae, quibusdam, vero delectus repudiandae tempore sint officiis odio.</p>
-                <button>Lorem</button>
-            </div>
-        </div>
-        <div class="slide slide-3">
-            <div class="slide-content">
-                <h1>Lorem, ipsum dolor sit amet</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. In voluptas eaque nobis ducimus voluptate molestiae corporis mollitia atque totam eligendi voluptatem vitae, quibusdam, vero delectus repudiandae tempore sint officiis odio.</p>
-                <button>Lorem</button>
+                <h1>Campus</h1>
+                <p>Il existe différents campus, ENI-Nantes, ENI-Paris ou bien ENI-Rennes. <br> Choisissez le votre !</p>
             </div>
         </div>
     </div>
@@ -49,7 +41,7 @@
                 </ul>
                 <div class="card-body">
                     {% if event.status.id == 6 %}
-                        <p class="alert-danger">ANNULEE</p>
+                        <p class="alert-danger">SORTIE ANNULÉE</p>
                     {% else %}
                         {% if event.status.id < 5 %}
                     <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
