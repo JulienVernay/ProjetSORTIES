@@ -46,23 +46,16 @@
 
 .slide-content h1 {
     font-family: "Anton", serif;
+    color: #fff;
     font-size: 45px;
     text-transform: uppercase;
 }
 
 .slide-content p {
     font-family: "Lato", serif;
+    color: #757575;
     font-size: 18px;
     margin-bottom: 20px;
-}
-
-.slide-content button {
-    font-family: "Roboto", serif;
-    font-size: 25px;
-    text-transform: uppercase;
-    font-weight: bolder;
-    padding: 10px 25px;
-    border: none;
 }
 
 .owl-dots {

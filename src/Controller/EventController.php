@@ -160,6 +160,7 @@ class EventController extends AbstractController
             $annulation = $annulationForm['motifCancel']->getData();
             $status = $this->getDoctrine()->getRepository(State::class)
                 ->findOneBy(['label'=>'Annulee']);
+            $participant = $event->getRegisteredMembers();
             $event->setStatus($status);
             $event->setMotifCancel($annulation);
             $entityManager->persist($event);

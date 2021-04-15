@@ -1,6 +1,6 @@
 
 .welcome {
-    color: black;
+    color: white;
     text-align: center;
 }
 
@@ -21,7 +21,6 @@
     font-weight: 200;
 }
 .box input[type = "text"],.box input[type = "password"]{
-    border:0;
     background: none;
     display: block;
     margin: 20px auto;
@@ -40,7 +39,6 @@
     background: #2ecc71;
 }
 .box input[type = "submit"]{
-    border:0;
     background: none;
     display: block;
     margin: 20px auto;
