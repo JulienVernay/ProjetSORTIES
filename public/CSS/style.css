@@ -127,7 +127,7 @@
 }
 
 .m-b-25 {
-    margin-bottom: 25px
+    margin-bottom: 25px;
 }
 
 .img-radius {
@@ -135,11 +135,13 @@
 }
 
 h6 {
-    font-size: 14px
+    font-size: 14px;
+    color: black !important;
 }
 
 .card .card-block p {
-    line-height: 25px
+    line-height: 25px;
+
 }
 
 @media only screen and (min-width: 1400px) {
