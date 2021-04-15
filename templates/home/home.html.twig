@@ -52,6 +52,7 @@
                                     {% else %}
                                         {% if event.status.id < 5 %}
                                             <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
+                                            <br>
                                             {% if event.organizer == app.user %}
                                                 <a href="{{url('modify_event',{"id": event.id})}}" class="card-link">Modifier l'evenement</a>
                                             {% endif %}
@@ -95,6 +96,7 @@
                                 {% else %}
                                     {% if event.status.id < 5 %}
                                         <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
+                                        <br>
                                         {% if event.organizer == app.user %}
                                             <a href="{{url('modify_event',{"id": event.id})}}" class="card-link">Modifier l'evenement</a>
                                         {% endif %}
@@ -137,6 +139,7 @@
                                 {% else %}
                                     {% if event.status.id < 5 %}
                                         <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
+                                        <br>
                                         {% if event.organizer == app.user %}
                                             <a href="{{url('modify_event',{"id": event.id})}}" class="card-link">Modifier l'evenement</a>
                                         {% endif %}
