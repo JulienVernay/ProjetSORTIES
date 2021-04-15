@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -50,7 +51,12 @@ class RegistrationFormType extends AbstractType
             ->add('phone', TextType::class, [
                 'label'=> 'Telephone'
             ])
-            ->add('campus')
+            ->add('campus', null, ['label'=>'Campus :'])
+            ->add('imageFile', FileType::class, [
+                'label'=>false,
+                'mapped'=>false,
+                'required'=>false
+            ])
         ;
     }
 
