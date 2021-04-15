@@ -8,49 +8,40 @@
     <div class="owl-carousel owl-theme">
         <div class="slide slide-1">
             <div class="slide-content">
-                <h1>Bienvenue sur Sortir.com</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. In voluptas eaque nobis ducimus voluptate molestiae corporis mollitia atque totam eligendi voluptatem vitae, quibusdam, vero delectus repudiandae tempore sint officiis odio.</p>
-                <button>Lorem</button>
+                <h1>Sortir.com ça sert à quoi ?</h1>
+                <p>Le plus beau des sites pour s'inscrire à toutes les sorties qui vont font envie.
+                   <br> Une sortie en particulier vous intéresse ? n'attendez plus, inscrivez-vous !</p>
             </div>
         </div>
         <div class="slide slide-2">
             <div class="slide-content">
-                <h1>Lorem, ipsum dolor sit amet</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. In voluptas eaque nobis ducimus voluptate molestiae corporis mollitia atque totam eligendi voluptatem vitae, quibusdam, vero delectus repudiandae tempore sint officiis odio.</p>
-                <button>Lorem</button>
-            </div>
-        </div>
-        <div class="slide slide-3">
-            <div class="slide-content">
-                <h1>Lorem, ipsum dolor sit amet</h1>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. In voluptas eaque nobis ducimus voluptate molestiae corporis mollitia atque totam eligendi voluptatem vitae, quibusdam, vero delectus repudiandae tempore sint officiis odio.</p>
-                <button>Lorem</button>
+                <h1>Campus</h1>
+                <p>Il existe différents campus, ENI-Nantes, ENI-Paris ou bien ENI-Rennes. <br> Choisissez le votre !</p>
             </div>
         </div>
     </div>
-    <div class="m-5">
-        <h2 class="text-center">Inscriptions possibles</h2>
+
+    <h1>Sortie</h1>
     <div class="row m-5">
+
     {% for event in events %}
-        {% if event.status.id == 2 %}
-        <div class="col-3 p-2">
-            <div class="card" style="width: 20rem;">
+        <div class="col-3 p-5">
+            <div class="card" style="width: 18rem;">
                 <img class="card-img-top" src="https://loremflickr.com/320/240" alt="Card image cap">
                 <div class="card-body">
-                    <a href="{{ url('event-details', {"id": event.id}) }}" class="card-title text-center">{{ event.name }}</a>
+                    <h5 class="card-title">{{ event.name }}</h5>
                     <p class="card-text text-truncate">{{ event.eventDetails }} </p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><strong>Date de début</strong> <br>
-                        {{ event.startingDateTime|format_datetime(locale='fr')}}</li>
-                    <li class="list-group-item"><strong>Date de fin des inscriptions</strong> <br>
-                        {{ event.inscriptionDeadLine|format_datetime(locale='fr')}}</li>
-                    <li class="list-group-item"><strong>Nombre inscrit </strong> <br>
-                        {{ event.registeredMembers.count }}/ {{ event.nbMaxRegistration }} places </li>
+                    <li class="list-group-item">Date de début : {{ event.startingDateTime|format_datetime(locale='fr')}}</li>
+                    <li class="list-group-item">Durée : {{ event.duration}}</li>
+                    <li class="list-group-item">Date de fin des inscriptions : {{ event.inscriptionDeadLine|format_datetime(locale='fr')}}</li>
+                    <li class="list-group-item">Nombre de participant max : {{ event.nbMaxRegistration }}</li>
+                    <li class="list-group-item">Status : {{ event.status.label }}</li>
                 </ul>
                 <div class="card-body">
                     {% if event.status.id == 6 %}
-                        <p class="alert-danger">ANNULEE</p>
+                        <p class="alert-danger">SORTIE ANNULÉE</p>
                     {% else %}
                         {% if event.status.id < 5 %}
                     <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
@@ -62,97 +53,13 @@
                 </div>
             </div>
         </div>
-        {% endif %}
+
         {% else %}
 
             <p>Aucune sortie n'a été trouvé</p>
 
         {% endfor %}
     </div>
-    </div>
+    <a href="{{ path('event') }}">Créer une nouvelle sortie</a>
 {% endif %}
-<div class="m-5">
-    <h2 class="text-center">Inscriptions cloturees </h2>
-    <div class="row m-5">
-        {% for event in events %}
-            {% if event.status.id == 3 %}
-                <div class="col-3 p-2">
-                    <div class="card" style="width: 20rem;">
-                        <img class="card-img-top" src="https://loremflickr.com/320/240" alt="Card image cap">
-                        <div class="card-body">
-                            <a href="{{ url('event-details', {"id": event.id}) }}" class="card-title text-center">{{ event.name }}</a>
-                            <p class="card-text text-truncate">{{ event.eventDetails }} </p>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Date de début</strong> <br>
-                                {{ event.startingDateTime|format_datetime(locale='fr')}}</li>
-                            <li class="list-group-item"><strong>Date de fin des inscriptions</strong> <br>
-                                {{ event.inscriptionDeadLine|format_datetime(locale='fr')}}</li>
-                            <li class="list-group-item"><strong>Nombre inscrit </strong> <br>
-                                {{ event.registeredMembers.count }}/ {{ event.nbMaxRegistration }} places </li>
-                        </ul>
-                        <div class="card-body">
-                            {% if event.status.id == 6 %}
-                                <p class="alert-danger">ANNULEE</p>
-                            {% else %}
-                                {% if event.status.id < 5 %}
-                                    <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
-                                    {% if event.organizer == app.user %}
-                                        <a href="{{url('modify_event',{"id": event.id})}}" class="card-link">Modifier l'evenement</a>
-                                    {% endif %}
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        {% else %}
-
-            <p>Aucune sortie n'a été trouvé</p>
-
-        {% endfor %}
-    </div>
-</div>
-    <div class="m-5">
-        <h2 class="text-center">Sorties annulees </h2>
-        <div class="row m-5">
-            {% for event in events %}
-                {% if event.status.id == 6 %}
-                    <div class="col-3 p-2">
-                        <div class="card" style="width: 20rem;">
-                            <img class="card-img-top" src="https://loremflickr.com/320/240" alt="Card image cap">
-                            <div class="card-body">
-                                <a href="{{ url('event-details', {"id": event.id}) }}" class="card-title text-center">{{ event.name }}</a>
-                                <p class="card-text text-truncate">{{ event.eventDetails }} </p>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><strong>Date de début</strong> <br>
-                                    {{ event.startingDateTime|format_datetime(locale='fr')}}</li>
-                                <li class="list-group-item"><strong>Date de fin des inscriptions</strong> <br>
-                                    {{ event.inscriptionDeadLine|format_datetime(locale='fr')}}</li>
-                                <li class="list-group-item"><strong>Nombre inscrit </strong> <br>
-                                    {{ event.registeredMembers.count }}/ {{ event.nbMaxRegistration }} places </li>
-                            </ul>
-                            <div class="card-body">
-                                {% if event.status.id == 6 %}
-                                    <p class="alert-danger">ANNULEE</p>
-                                {% else %}
-                                    {% if event.status.id < 5 %}
-                                        <a href="{{ url('event-details', {"id": event.id}) }}" class="card-link">Details de l'evenement</a>
-                                        {% if event.organizer == app.user %}
-                                            <a href="{{url('modify_event',{"id": event.id})}}" class="card-link">Modifier l'evenement</a>
-                                        {% endif %}
-                                    {% endif %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                {% endif %}
-            {% else %}
-
-                <p>Aucune sortie n'a été trouvé</p>
-
-            {% endfor %}
-        </div>
-    </div>
 {% endblock %}
