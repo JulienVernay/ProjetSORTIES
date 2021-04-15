@@ -7,6 +7,7 @@ use App\Form\LocationFormType;
 use App\Repository\CityRepository;
 use App\Repository\LocationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,7 @@ class LocationController extends AbstractController
 {
     /**
      * @Route("/lieu", name="lieu")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
      * @param Request $request
      * @param CityRepository $cityRepo
      * @param LocationRepository $locationRepo

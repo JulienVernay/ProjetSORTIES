@@ -8,6 +8,7 @@ use App\Form\ModifyCampusFormType;
 use App\Form\SearchCampusFormType;
 use App\Repository\CampusRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ class CampusController extends AbstractController
 {
     /**
      * @Route ("/campus", name="campus")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
      */
     public function search_add(Request $request, CampusRepository $campusRepository, EntityManagerInterface $em){
         $newCampus = new Campus();
@@ -54,6 +56,7 @@ class CampusController extends AbstractController
      * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      * @Route("/campus/delete/{id}", requirements={"id":"\d+"}, name="delete_campus", methods={"GET", "POST"})
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
      */
     public function deleteCampus($id, EntityManagerInterface $em): \Symfony\Component\HttpFoundation\RedirectResponse
     {
@@ -73,6 +76,7 @@ class CampusController extends AbstractController
      * @param EntityManagerInterface $em
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @Route("campus/modify/{id}", requirements={"id":"\d+"}, name="modify_campus")
+     * @IsGranted("ROLE_ADMIN", statusCode=404, message="Cet accès est réservé aux admin")
      */
     public function modifyCampus(Request $request, EntityManagerInterface $em){
         $id = $request->get('id');
