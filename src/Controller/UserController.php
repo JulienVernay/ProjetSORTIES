@@ -94,6 +94,7 @@ class UserController extends AbstractController
         $user = $em->getRepository('App:User')->find($id)->setImageFileName('');
 
         $em->flush();
+        $this->addFlash('success', 'Photo de profil supprimée');
         return $this->redirectToRoute('user_modify', ['id'=>$id]);
     }
 }
