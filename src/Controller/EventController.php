@@ -47,14 +47,14 @@ class EventController extends AbstractController
             $publier = 'publier';
 
             if ($env === $publier) {
-                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>2]);
-                $event->setStatus($etat);
+                $ouverte = $this->getDoctrine()->getRepository(State::class)->findOneBy(['label'=>'Ouverte']);
+                $event->setStatus($ouverte);
                 $this->addFlash('success', 'Votre sortie a été publiée avec succès !');
 
 
             } elseif ($env === $enregister) {
-                $etat = $entityManager->getRepository('App:State')->findOneBy(['id'=>1]);
-                $event->setStatus($etat);
+                $creee = $this->getDoctrine()->getRepository(State::class)->findOneBy(['label'=>'Creee']);
+                $event->setStatus($creee);
                 $this->addFlash('success', 'Votre sortie a été enregistrée avec succès !');
 
             }
@@ -185,11 +185,27 @@ class EventController extends AbstractController
         $eventForm = $this->createForm(CreateEventFormType::class, $event);
         $eventForm->handleRequest($request);
 
-        if ($eventForm->isSubmitted() && $eventForm->isValid()) {
 
+
+        if ($eventForm->isSubmitted() && $eventForm->isValid()) {
+            $env = $request->request->get('envoyer');
+            $enregister = 'enregistrer';
+            $publier = 'publier';
+
+            if ($env === $publier) {
+                $ouverte = $this->getDoctrine()->getRepository(State::class)->findOneBy(['label'=>'Ouverte']);
+                $event->setStatus($ouverte);
+                $this->addFlash('success', 'Votre sortie a été publiée avec succès !');
+
+
+            } elseif ($env === $enregister) {
+                $creee = $this->getDoctrine()->getRepository(State::class)->findOneBy(['label'=>'Creee']);
+                $event->setStatus($creee);
+                $this->addFlash('success', 'Votre sortie a été enregistrée avec succès !');
+
+            }
             $entityManager->persist($event);
             $entityManager->flush();
-            $this->addFlash('success', "L'évenement a été modifié avec succès");
             return $this->render('sortie/detailSortie.html.twig', ['event'=>$event]);
         }
 

@@ -22,11 +22,13 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         $events = $this->getDoctrine()->getRepository('App:Event')->findAll();
-        $status = $this->getDoctrine()->getRepository(State::class)->findOneBy(['label'=>'Cloturee']);
+        $cloturee = $this->getDoctrine()->getRepository(State::class)->findOneBy(['label'=>'Cloturee']);
         foreach ($events as $event){
             if ($event->getNbMaxRegistration() == $event->getRegisteredMembers()->count() &&
             $event->getStatus()->getId() != 6) {
-                $event->setStatus($status);
+                $event->setStatus($cloturee);
+            } else if($event->getInscriptionDeadLine() < new \DateTime('now')){
+                $event->setStatus($cloturee);
             }
         }
 

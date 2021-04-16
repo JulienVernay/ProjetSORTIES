@@ -55,7 +55,7 @@
                                             <h6 class="text-muted f-w-400">{{ user.campus }}</h6>
                                         </div>
                                     </div>
-                                    {% if app.user.id == user.id or app.user.roles == ['ROLE_ADMIN'] %}
+                                    {% if app.user.id == user.id%}
                                         <a class="btn btn-lg btn-outline-primary" href="{{ url('user_modify', {"id": user.id}) }}" role="button">Modifier</a>
                                     {% endif %}
                                     </div>
